@@ -149,6 +149,16 @@ h1, h2, h3, .fal-titre-site { color: var(--bt-titre); }
   text-transform: none; letter-spacing: 0;
 }
 .fal-nav__liens a.mainmenu:hover { border-color: var(--bt-bord); background: var(--bt-puce); color: var(--fal-texte); }
+.fal-compte #fa_welcome, .fal-compte #fa_notifications {
+  display: inline-block; padding: .3em .7em;
+  border: 2px solid transparent;
+  font-family: var(--bt-police-barre); font-size: var(--bt-taille-barre); font-weight: 400;
+}
+.fal-compte #fa_welcome:hover, .fal-compte #fa_notifications:hover,
+.fal-compte[data-ouvert="compte"] #fa_welcome, .fal-compte[data-ouvert="notifications"] #fa_notifications {
+  border-color: var(--bt-bord); background: var(--bt-puce); color: var(--fal-texte);
+}
+.fal-compte #notif_unread:not(:empty) { border-radius: 0; }
 @media (min-width: 48rem) {
   .fal-nav__liens, .fal-nav__bascule:checked ~ .fal-nav__liens { justify-content: flex-start; gap: .25em; }
 }

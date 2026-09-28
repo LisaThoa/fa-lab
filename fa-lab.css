@@ -174,7 +174,9 @@ dfn { font-style: normal; }
 .fal-description-site { margin: .5em 0 0; color: var(--fal-texte-doux); }
 
 .fal-nav { border-top: var(--fal-trait) solid var(--fal-bordure); }
-.fal-nav .fal-cadre { position: relative; }
+.fal-nav .fal-cadre { position: relative; display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--fal-espace); }
+.fal-nav__bouton { flex: 1; }
+.fal-nav__liens { flex: 1 1 100%; order: 3; }
 
 .fal-nav__bascule { position: absolute; opacity: 0; pointer-events: none; }
 .fal-nav__bouton {
@@ -209,6 +211,7 @@ dfn { font-style: normal; }
 
 @media (min-width: 48rem) {
   .fal-nav__bouton { display: none; }
+  .fal-nav__liens { flex: 1 1 0; min-width: 0; order: 0; }
   .fal-nav__liens,
   .fal-nav__bascule:checked ~ .fal-nav__liens {
     display: flex;
@@ -909,6 +912,26 @@ textarea { width: 100%; min-height: 10em; }
   border-radius: var(--fal-arrondi);
   box-shadow: 0 8px 24px color-mix(in oklab, var(--fal-texte) 20%, transparent);
 }
+/* Forumactif ouvre ses menus en posant une classe sur #fa_right, et un left en ligne prévu pour une barre fixe */
+#fa_right.welcome #fa_menulist, #fa_right.notification #notif_list { display: block; }
+#fa_menulist, #notif_list { left: auto !important; }
+
+/* Barre fusionnée : le compte et les notifications passent dans la navigation (overall_footer_end) */
+.fal-barre-fusionnee #fa_toolbar, .fal-barre-fusionnee #fa_toolbar_hidden { display: none !important; }
+.fal-compte {
+  position: relative;
+  display: flex; align-items: center; gap: .75em;
+  font: var(--fal-taille-petite) / 1.3 var(--fal-police-interface);
+}
+.fal-compte:empty { display: none; }
+.fal-compte { margin-left: auto; }
+.fal-compte #fa_menulist { right: 0; }
+.fal-compte ul { margin: 0; padding: 0; list-style: none; }
+.fal-compte a { color: var(--fal-texte); text-decoration: none; }
+.fal-compte a:hover { color: var(--fal-accent); }
+.fal-compte[data-ouvert="notifications"] #notif_list, .fal-compte[data-ouvert="compte"] #fa_menulist { display: block; }
+.fal-compte #notif_list { top: calc(100% + .5rem); right: 0; z-index: 9000; }
+.fal-compte #fa_menulist { z-index: 9000; }
 #fa_menulist a, #notif_list a { display: block; padding: .35rem 1rem; color: var(--fal-texte); }
 #fa_menulist a:hover, #notif_list a:hover { background: var(--fal-surface); }
 #fa_menulist .fa_separator { margin: .35rem 0; border-top: var(--fal-trait) solid var(--fal-bordure); }

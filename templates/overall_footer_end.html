@@ -82,6 +82,31 @@
 <!-- END switch_topicit_connect -->
 
 <script>
+	(function () {
+		var boite = document.getElementById('fal-compte');
+		if (!boite) return;
+		function fusionner() {
+			var droite = document.getElementById('fa_right');
+			if (!droite) return false;
+			['fa_menu', 'fa_notifications', 'notif_list', 'live_notif'].forEach(function (id) {
+				var e = document.getElementById(id);
+				if (e) boite.appendChild(e);
+			});
+			function recopier() {
+				var c = droite.className;
+				boite.setAttribute('data-ouvert', /\bnotification\b/.test(c) ? 'notifications' : (/\bwelcome\b/.test(c) ? 'compte' : ''));
+			}
+			new MutationObserver(recopier).observe(droite, { attributes: true, attributeFilter: ['class'] });
+			recopier();
+			document.documentElement.classList.add('fal-barre-fusionnee');
+			return true;
+		}
+		if (!fusionner()) {
+			var guet = new MutationObserver(function () { if (fusionner()) guet.disconnect(); });
+			guet.observe(document.body, { childList: true, subtree: true });
+			setTimeout(function () { guet.disconnect(); }, 10000);
+		}
+	})();
 	fa_endpage();
 	<!-- BEGIN switch_webpush_notifications -->
 	if ('serviceWorker' in navigator && 'PushManager' in window && navigator.userAgent.includes('Mac') && Notification.permission === 'default' && window.matchMedia('(display-mode: standalone)').matches) {
