@@ -1,0 +1,109 @@
+<!-- BEGIN topics_list_box -->
+<!-- BEGIN row -->
+<!-- BEGIN header_table -->
+	<!-- BEGIN multi_selection -->
+	<script>
+		function check_uncheck_main_{topics_list_box.row.header_table.BOX_ID}() {
+			var f = document.{topics_list_box.FORMNAME}, tout = true;
+			for (var i = 0; i < f.elements.length && tout; i++) {
+				if (f.elements[i].name == '{topics_list_box.FIELDNAME}[]{topics_list_box.row.header_table.BOX_ID}') tout = f.elements[i].checked;
+			}
+			f.all_mark_{topics_list_box.row.header_table.BOX_ID}.checked = tout;
+		}
+		function check_uncheck_all_{topics_list_box.row.header_table.BOX_ID}() {
+			var f = document.{topics_list_box.FORMNAME};
+			for (var i = 0; i < f.elements.length; i++) {
+				if (f.elements[i].name == '{topics_list_box.FIELDNAME}[]{topics_list_box.row.header_table.BOX_ID}') f.elements[i].checked = f.all_mark_{topics_list_box.row.header_table.BOX_ID}.checked;
+			}
+		}
+	</script>
+	<!-- END multi_selection -->
+
+	<section class="fal-sujets forumbg announcement">
+		<header class="fal-sujets__entete">
+			<h2 class="fal-sujets__titre">
+				<!-- BEGIN multi_selection -->
+				<input onclick="check_uncheck_all_{topics_list_box.row.header_table.BOX_ID}();" type="checkbox" name="all_mark_{topics_list_box.row.header_table.BOX_ID}" value="0" />
+				<!-- END multi_selection -->
+				{topics_list_box.row.L_TITLE}
+			</h2>
+		</header>
+		<ul class="fal-sujets__liste topiclist topics bg_none">
+<!-- END header_table -->
+
+<!-- BEGIN header_row -->
+			<li class="fal-sujets__intertitre"><strong>{topics_list_box.row.L_TITLE}</strong></li>
+<!-- END header_row -->
+
+<!-- BEGIN topic -->
+	<!-- BEGIN table_sticky -->
+		</ul>
+	</section>
+	<section class="fal-sujets forumbg">
+		<header class="fal-sujets__entete">
+			<h2 class="fal-sujets__titre">
+				<!-- BEGIN multi_selection -->
+				<input onclick="check_uncheck_all_{topics_list_box.row.header_table.BOX_ID}();" type="checkbox" name="all_mark_{topics_list_box.row.header_table.BOX_ID}" value="0" />
+				<!-- END multi_selection -->
+				{topics_list_box.row.topic.table_sticky.L_TITLE}
+			</h2>
+		</header>
+		<ul class="fal-sujets__liste topiclist topics bg_none">
+	<!-- END table_sticky -->
+
+			<li class="fal-sujet row {topics_list_box.row.ROW_ALT_CLASS}"<!-- BEGIN line_sticky --> data-fal-postit<!-- END line_sticky --> style="--fal-statut: url('{topics_list_box.row.TOPIC_FOLDER_IMG}');">
+				<span class="fal-sujet__statut" role="img" aria-label="{topics_list_box.row.L_TOPIC_FOLDER_ALT}" title="{topics_list_box.row.L_TOPIC_FOLDER_ALT}"></span>
+
+				<div class="fal-sujet__infos dterm" {topics_list_box.row.ICON}>
+					<!-- BEGIN single_selection -->
+					<input type="radio" name="{topics_list_box.FIELDNAME}" value="{topics_list_box.row.FID}" {topics_list_box.row.L_SELECT} />
+					<!-- END single_selection -->
+					<div class="fal-sujet__ligne-titre topic-title-container">
+						{topics_list_box.row.NEWEST_POST_IMG}
+						{topics_list_box.row.PARTICIPATE_POST_IMG}
+						<span class="fal-sujet__type">{topics_list_box.row.TOPIC_TYPE}</span>
+						<h3 class="fal-sujet__titre topic-title hierarchy">
+							<a class="topictitle" href="{topics_list_box.row.U_VIEW_TOPIC}">{topics_list_box.row.TOPIC_TITLE}</a>
+						</h3>
+					</div>
+					<!-- BEGIN switch_description -->
+					<p class="fal-sujet__description topic-description">{topics_list_box.row.topic.switch_description.TOPIC_DESCRIPTION}</p>
+					<!-- END switch_description -->
+					<p class="fal-sujet__auteur topic-author">{topics_list_box.row.L_BY} {topics_list_box.row.TOPIC_AUTHOR}</p>
+					<div class="fal-sujet__pages">{topics_list_box.row.GOTO_PAGE_NEW}</div>
+					<!-- BEGIN nav_tree -->
+					<div class="fal-sujet__chemin">{topics_list_box.row.TOPIC_NAV_TREE_NEW}</div>
+					<!-- END nav_tree -->
+				</div>
+
+				<dl class="fal-sujet__chiffres">
+					<div class="fal-chiffre"><dt>{L_REPLIES}</dt><dd class="posts">{topics_list_box.row.REPLIES}</dd></div>
+					<div class="fal-chiffre"><dt>{L_VIEWS}</dt><dd class="views">{topics_list_box.row.VIEWS}</dd></div>
+				</dl>
+
+				<div class="fal-sujet__dernier lastpost">
+					<!-- BEGIN avatar -->
+					<span class="lastpost-avatar">{topics_list_box.row.topic.avatar.LAST_POST_AVATAR}</span>
+					<!-- END avatar -->
+					<span class="lastpost-infos">
+						{topics_list_box.row.LAST_POST_AUTHOR} <dfn>{L_LASTPOST}</dfn> {topics_list_box.row.LAST_POST_IMG}<br />{topics_list_box.row.LAST_POST_TIME}
+					</span>
+				</div>
+
+				<!-- BEGIN multi_selection -->
+				<input class="fal-sujet__coche" onclick="check_uncheck_main_{topics_list_box.row.BOX_ID}();" type="checkbox" name="{topics_list_box.FIELDNAME}[]{topics_list_box.row.BOX_ID}" value="{topics_list_box.row.FID}" {topics_list_box.row.L_SELECT} />
+				<!-- END multi_selection -->
+			</li>
+<!-- END topic -->
+
+<!-- BEGIN no_topics -->
+			<li class="fal-sujet fal-sujet--vide row row1"><p>{topics_list_box.row.L_NO_TOPICS}</p></li>
+<!-- END no_topics -->
+
+<!-- BEGIN bottom -->
+		</ul>
+	</section>
+<!-- END bottom -->
+<!-- BEGIN spacer --><!-- END spacer -->
+<!-- END row -->
+<!-- END topics_list_box -->

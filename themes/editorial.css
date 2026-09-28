@@ -1,0 +1,107 @@
+/* fa-lab — thème « Éditorial » : typographie de magazine, papier et encre,
+   accent vermillon. À charger après fa-lab.css. */
+
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..600&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  --fal-fond: light-dark(#f5f1ea, #161412);
+  --fal-texte: light-dark(#1f1c19, #ebe5da);
+  --fal-accent: light-dark(#b23a1e, #e8805f);
+  --fal-accent-contraste: light-dark(#fffaf3, #161412);
+
+  --fal-police-texte: "Newsreader", Georgia, serif;
+  --fal-police-titres: "Fraunces", Georgia, serif;
+  --fal-police-interface: "Inter", system-ui, sans-serif;
+
+  --fal-taille-texte: 1.125rem;
+  --fal-interligne: 1.65;
+  --fal-taille-petite: .78rem;
+  --fal-taille-titre-site: clamp(2.75rem, 1.4rem + 6vw, 6rem);
+  --fal-taille-titre-page: clamp(2rem, 1.2rem + 3.5vw, 3.75rem);
+  --fal-taille-titre-section: 1.6rem;
+  --fal-taille-titre-forum: 1.35rem;
+  --fal-graisse-titres: 600;
+  --fal-interligne-titres: 1.05;
+
+  --fal-interface-casse: uppercase;
+  --fal-interface-espacement: .08em;
+
+  --fal-arrondi: 2px;
+  --fal-arrondi-petit: 2px;
+  --fal-numeroter-categories: decimal-leading-zero;
+}
+
+.fal-entete { border-bottom: 0; }
+.fal-entete__titre { padding-block: clamp(1.5rem, 5vw, 3.5rem) 1.25rem; }
+.fal-titre-site {
+  font-variation-settings: "opsz" 144;
+  font-weight: 700;
+  letter-spacing: -.03em;
+}
+.fal-description-site {
+  font-style: italic;
+  font-size: 1.15em;
+}
+.fal-nav {
+  border-top: 1px solid var(--fal-texte);
+  border-bottom: 3px double var(--fal-texte);
+}
+.fal-nav__liens a.mainmenu { font-weight: 500; }
+
+.fal-titre-page__titre, .fal-categorie__titre, .fal-forum__titre, .fal-sujet__titre {
+  font-variation-settings: "opsz" 96;
+  letter-spacing: -.01em;
+}
+.fal-titre-page { border-bottom: 1px solid var(--fal-texte); }
+.fal-titre-page__chapo { font-style: italic; font-size: 1.15em; }
+.fal-fil { color: var(--fal-accent); font-weight: 600; }
+.fal-fil a { color: inherit; }
+
+.fal-categorie__titre {
+  font-family: var(--fal-police-titres);
+  text-transform: none;
+  letter-spacing: -.01em;
+}
+.fal-categorie__titre::before {
+  font-family: var(--fal-police-interface);
+  font-size: .55em;
+  font-weight: 700;
+  letter-spacing: .08em;
+  vertical-align: .35em;
+  margin-right: .35em;
+}
+
+.fal-edito__titre { font-style: italic; font-weight: 500; }
+.fal-edito__texte { font-size: 1.1em; }
+.fal-edito__texte::first-letter {
+  float: left;
+  margin: .05em .08em 0 0;
+  font-family: var(--fal-police-titres);
+  font-size: 3.4em;
+  line-height: .85;
+  color: var(--fal-accent);
+}
+
+.fal-forum__description, .fal-sujet__description { font-style: italic; }
+.fal-chiffre dd { font-family: var(--fal-police-titres); font-size: 1.25rem; font-weight: 500; }
+
+.fal-accueil__colonne {
+  padding-left: 0;
+}
+@media (min-width: 64rem) {
+  .fal-accueil__colonne { padding-left: 2rem; border-left: 1px solid var(--fal-bordure); }
+}
+
+.fal-profil__nom { font-family: var(--fal-police-titres); font-size: 1.15rem; font-weight: 600; }
+.fal-profil__avatar img { border-radius: 2px; filter: grayscale(.15); }
+.fal-message__titre { font-family: var(--fal-police-interface); font-size: var(--fal-taille-petite); text-transform: uppercase; letter-spacing: .08em; }
+.postbody blockquote { background: transparent; font-style: italic; border-left-width: 2px; }
+
+.fal-bouton, .button1, .button2, input[type="submit"], input[type="button"] {
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: .72rem;
+}
+.rep-button { border-radius: 2px; }
+
+.fal-pied { border-top: 3px double var(--fal-texte); }

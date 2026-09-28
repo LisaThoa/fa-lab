@@ -1,0 +1,405 @@
+<script src="{JS_DIR}extendedview.js"></script>
+
+<div class="fal-erreurs">{ERROR_BOX}</div>
+
+<!-- Ne pas renommer le formulaire ni ses champs : Forumactif et les plugins les lisent. -->
+<form class="fal-redaction" action="{S_POST_ACTION}" method="post" name="post" enctype="multipart/form-data">
+	<header class="fal-titre-page">
+		<h1 class="fal-titre-page__titre page-title">{L_POST_A}</h1>
+	</header>
+
+	<div class="fal-apercu">{POST_PREVIEW_BOX}</div>
+
+	<!-- BEGIN switch_forum_rules -->
+	<section class="fal-bloc fal-reglement post row1" id="forum_rules">
+		<h2 class="fal-bloc__titre">{L_FORUM_RULES}</h2>
+		<div class="fal-reglement__corps">
+			<!-- BEGIN switch_forum_rule_image -->
+			<img class="fal-reglement__image" src="{RULE_IMG_URL}" alt="" loading="lazy" />
+			<!-- END switch_forum_rule_image -->
+			<div class="rules content">{RULE_MSG}</div>
+		</div>
+	</section>
+	<!-- END switch_forum_rules -->
+
+	<!-- BEGIN switch_quote_limit -->
+	<p class="fal-alerte">{switch_quote_limit.L_QUOTE_LIMIT_WARNING}</p>
+	<!-- END switch_quote_limit -->
+
+	<div class="fal-redaction__principal panel" id="postingbox">
+		<fieldset class="fal-champs fields1">
+			<!-- BEGIN switch_username_select -->
+			<div class="fal-champ">
+				<label for="fal-username">{L_USERNAME}</label>
+				<input class="inputbox" type="text" id="fal-username" name="username" maxlength="25" value="{USERNAME}" />
+			</div>
+			<!-- END switch_username_select -->
+
+			<!-- BEGIN switch_reasons -->
+			<div class="fal-champ">
+				<label>{L_REASON}</label>
+				<div>{REASON_NEW}</div>
+			</div>
+			<!-- END switch_reasons -->
+
+			<!-- BEGIN switch_privmsg -->
+			<div class="fal-champ">
+				<label for="username">{L_USERNAME}</label>
+				<div class="fal-destinataires">
+					<!-- BEGIN switch_username -->
+					<input class="inputbox" type="text" name="username[]" value="{switch_privmsg.switch_username.USERNAME}" /><br />
+					<!-- END switch_username -->
+					<input class="inputbox" type="text" id="username" name="username[]" value="{USERNAME}" tabindex="1" />
+					<img id="add_username" src="{ADD_USERNAME_IMG}" class="selectHover" alt="+" loading="lazy" />
+					<input class="button2" type="button" id="find_user" value="{L_FIND_USERNAME}" />
+				</div>
+			</div>
+			<!-- BEGIN switch_privmsg_friend -->
+			<div class="fal-champ">
+				<label>{switch_privmsg.switch_privmsg_friend.L_OR_FRIEND}</label>
+				<div>{switch_privmsg.switch_privmsg_friend.FRIEND_PM}</div>
+			</div>
+			<!-- END switch_privmsg_friend -->
+			<!-- BEGIN switch_privmsg_group -->
+			<div class="fal-champ">
+				<label>{switch_privmsg.switch_privmsg_group.L_OR_GROUP}</label>
+				<div>{switch_privmsg.switch_privmsg_group.MASS_PM} <input type="button" value=" ? " title="{switch_privmsg.switch_privmsg_group.MASS_PM_EXPLAIN}" class="button2" /></div>
+			</div>
+			<!-- END switch_privmsg_group -->
+			<!-- END switch_privmsg -->
+
+			<!-- BEGIN switch_icon_checkbox -->
+			<div class="fal-champ">
+				<span class="fal-champ__libelle">{L_ICON_TITLE}</span>
+				<div class="fal-icones">
+					<!-- BEGIN row -->
+					<!-- BEGIN cell -->
+					<label><input type="radio" name="post_icon" value="{switch_icon_checkbox.row.cell.ICON_ID}" {switch_icon_checkbox.row.cell.ICON_CHECKED} id="post_icon_{switch_icon_checkbox.row.cell.ICON_ID}" /> {switch_icon_checkbox.row.cell.ICON_IMG}</label>
+					<!-- END cell -->
+					<!-- END row -->
+				</div>
+			</div>
+			<!-- END switch_icon_checkbox -->
+
+			<!-- BEGIN switch_subject -->
+			<div class="fal-champ fal-champ--titre">
+				<label for="fal-sujet">{L_SUBJECT}</label>
+				<div class="fal-champ__ligne">
+					<input class="inputbox" type="text" id="fal-sujet" name="subject" value="{SUBJECT}" maxlength="{TOPIC_TITLE_MAXLENGTH}" title="{TOPIC_TITLE_LENGTH_EXPLAIN}" onkeypress="if (event.keyCode==13){return false}" />
+					<!-- BEGIN switch_subject_color -->
+					<select name="topic_color" aria-label="Couleur du titre" onchange="document.getElementById('fal-sujet').style.color = this.value">
+						{switch_subject.switch_subject_color.TOPIC_TITLE_COLOR_OPTIONS}
+					</select>
+					<script>
+						document.getElementById('fal-sujet').style.color = '{switch_subject.switch_subject_color.TOPIC_TITLE_COLOR_DEFAULT}';
+					</script>
+					<!-- END switch_subject_color -->
+				</div>
+			</div>
+			<!-- END switch_subject -->
+
+			<!-- BEGIN switch_description -->
+			<div class="fal-champ">
+				<label for="fal-description">{L_DESCRIPTION}</label>
+				<input class="inputbox" type="text" id="fal-description" name="description" value="{DESCRIPTION}" maxlength="{TOPIC_DESCRIPTION_MAXLENGTH}" onkeypress="if (event.keyCode==13){return false}" />
+			</div>
+			<!-- END switch_description -->
+
+			<div id="message-box" class="fal-editeur">
+				<span id="helpbox" class="helpline"></span>
+				<div id="textarea_content">
+					<textarea id="text_editor_textarea" name="message">{MESSAGE}</textarea>
+				</div>
+			</div>
+			{SCEDITOR}
+
+			<div id="smiley-box" class="fal-editeur__etat">
+				<div id="smileyContainer">{L_SMILIES_PREVIEW_NEW}</div>
+				<p>{HTML_STATUS} · <a href="/faq?mode=bbcode" target="_blank">{BBCODE_STATUS}</a> · {SMILIES_STATUS}</p>
+			</div>
+
+			<!-- BEGIN edit_reason -->
+			<div class="fal-champ">
+				<label for="fal-raison">{edit_reason.L_EDIT_REASON}</label>
+				<input class="inputbox" type="text" id="fal-raison" name="edit_reason" value="{edit_reason.EDIT_REASON}" maxlength="255" />
+			</div>
+			<!-- END edit_reason -->
+		</fieldset>
+	</div>
+
+	<div class="fal-envoi">
+		<fieldset class="fal-envoi__boutons submit-buttons">
+			{S_HIDDEN_FORM_FIELDS}
+			<input type="hidden" name="lt" value="{LAST_TOPIC_ID}" />
+			<!-- BEGIN switch_preview -->
+			<input class="button2" type="submit" name="preview" value="{L_PREVIEW}" tabindex="5" />
+			<!-- END switch_preview -->
+			<!-- BEGIN switch_draft -->
+			<input class="button2 {BTN_DRAFT_CLASS}" type="submit" name="draft" value="{L_DRAFT}" title="{L_DRAFT_TITLE}" tabindex="7" accesskey="d" {switch_draft.DISABLED_DRAFT} />
+			<!-- END switch_draft -->
+			<!-- BEGIN switch_publish -->
+			<input class="button2" type="submit" name="publish" value="{L_PUBLISH}" tabindex="8" accesskey="p" />
+			<!-- END switch_publish -->
+			<input class="button1" type="submit" name="post" value="{L_SUBMIT}" title="{L_SUBMIT_TITLE}" tabindex="6" accesskey="s" {DISABLED_SUBMIT} />
+			<!-- BEGIN switch_signature -->
+			<input type="hidden" name="submit" value="{L_SUBMIT}" />
+			<!-- END switch_signature -->
+		</fieldset>
+		<!-- BEGIN switch_warning_msg -->
+		<p class="fal-envoi__avertissement info">{switch_warning_msg.WARNING_CONTENT}</p>
+		<!-- END switch_warning_msg -->
+	</div>
+
+	<div class="fal-volets">
+		<details class="fal-volet">
+			<summary>{L_OPTIONS}</summary>
+			<div class="fal-volet__corps">
+				<!-- BEGIN switch_topic_modif -->
+				<fieldset class="fal-champs fields1">
+					<!-- BEGIN switch_icon_checkbox -->
+					<div class="fal-champ">
+						<span class="fal-champ__libelle">{POST_ICON_TITLE}</span>
+						<div class="fal-icones">
+							<!-- BEGIN row -->
+							<!-- BEGIN cell -->
+							<label><input type="radio" name="post_icon" value="{switch_topic_modif.switch_icon_checkbox.row.cell.ICON_ID}" id="post_icon_{switch_topic_modif.switch_icon_checkbox.row.cell.ICON_ID}" {switch_topic_modif.switch_icon_checkbox.row.cell.ICON_CHECKED} /> {switch_topic_modif.switch_icon_checkbox.row.cell.ICON_IMG}</label>
+							<!-- END cell -->
+							<!-- END row -->
+						</div>
+					</div>
+					<!-- END switch_icon_checkbox -->
+					<div class="fal-champ">
+						<label for="modif_topic_title">{L_TOPIC_TITLE_MODIFY}</label>
+						<div class="fal-champ__ligne">
+							<input type="text" class="inputbox" name="modif_topic_title" id="modif_topic_title" value="{MODIF_TOPIC_TITLE}" maxlength="{TOPIC_DESCRIPTION_MAXLENGTH}" onkeypress="if (event.keyCode==13){return false}" />
+							<!-- BEGIN switch_topic_button -->
+							<input type="button" class="button2" value="{L_SOLVED_WITHOUT_BRAKETS}" onclick="set_solved(this.form.elements['modif_topic_title'],'{L_SOLVED}')" id="button_solved" />
+							<!-- END switch_topic_button -->
+						</div>
+					</div>
+				</fieldset>
+				<!-- END switch_topic_modif -->
+
+				<fieldset class="fal-cases fields1">
+					<!-- BEGIN switch_html_checkbox -->
+					<label><input type="checkbox" name="disable_html"{S_HTML_CHECKED} /> {L_DISABLE_HTML}</label>
+					<!-- END switch_html_checkbox -->
+					<!-- BEGIN switch_bbcode_checkbox -->
+					<label><input type="checkbox" name="disable_bbcode"{S_BBCODE_CHECKED} /> {L_DISABLE_BBCODE}</label>
+					<!-- END switch_bbcode_checkbox -->
+					<!-- BEGIN switch_smilies_checkbox -->
+					<label><input type="checkbox" name="disable_smilies"{S_SMILIES_CHECKED} /> {L_DISABLE_SMILIES}</label>
+					<!-- END switch_smilies_checkbox -->
+					<!-- BEGIN switch_signature_checkbox -->
+					<label><input type="checkbox" name="attach_sig"{S_SIGNATURE_CHECKED} /> {L_ATTACH_SIGNATURE}</label>
+					<!-- END switch_signature_checkbox -->
+					<!-- BEGIN switch_notify_checkbox -->
+					<label><input type="checkbox" name="notify"{S_NOTIFY_CHECKED} /> {L_NOTIFY_ON_REPLY}</label>
+					<!-- END switch_notify_checkbox -->
+					<!-- BEGIN switch_delete_checkbox -->
+					<label><input type="checkbox" name="delete" /> {L_DELETE_POST}</label>
+					<!-- END switch_delete_checkbox -->
+					<!-- BEGIN switch_type_toggle -->
+					<div class="fal-type">{S_TYPE_TOGGLE}</div>
+					<!-- END switch_type_toggle -->
+				</fieldset>
+			</div>
+		</details>
+
+		<!-- BEGIN switch_attachment_list -->
+		<details class="fal-volet" id="attachments" open>
+			<summary>{L_ATTACHMENTS}</summary>
+			<fieldset class="fal-volet__corps fal-champs fields1">
+				<!-- BEGIN attachments -->
+				<div class="fal-champ">
+					<span class="fal-champ__libelle">{L_ATTACHMENT_FILENAME}</span>
+					<div class="fal-champ__ligne">
+						<!-- BEGIN switch_is_orphan -->
+						<span class="gen">{switch_attachment_list.attachments.switch_is_orphan.FILENAME}</span>
+						<!-- END switch_is_orphan -->
+						<!-- BEGIN switch_is_not_orphan -->
+						<a href="{switch_attachment_list.attachments.switch_is_not_orphan.U_ATTACH_URL}" class="gen">{switch_attachment_list.attachments.switch_is_not_orphan.FILENAME}</a>
+						<!-- END switch_is_not_orphan -->
+						<input class="button2 liteoption" type="submit" value="{L_ATTACHMENT_DELETE}" name="delete_file[{switch_attachment_list.attachments.ATTACH_POS}]" />
+					</div>
+				</div>
+				<div class="fal-champ">
+					<label for="filecomment{switch_attachment_list.attachments.ATTACH_POS}">{L_ATTACH_COMMENT}</label>
+					<input class="inputbox" type="text" id="filecomment{switch_attachment_list.attachments.ATTACH_POS}" name="comment_list[{switch_attachment_list.attachments.ATTACH_POS}]" value="{switch_attachment_list.attachments.ATTACH_COMMENT}" maxlength="255" />
+					<input type="hidden" value="{switch_attachment_list.attachments.ATTACH_ID}" name="attachment_data[{switch_attachment_list.attachments.ATTACH_POS}][attach_id]" />
+					<input type="hidden" value="{switch_attachment_list.attachments.IS_ORPHAN}" name="attachment_data[{switch_attachment_list.attachments.ATTACH_POS}][is_orphan]" />
+					<input type="hidden" value="{switch_attachment_list.attachments.REAL_FILENAME}" name="attachment_data[{switch_attachment_list.attachments.ATTACH_POS}][real_filename]" />
+					<input type="hidden" value="{switch_attachment_list.attachments.ATTACH_COMMENT}" name="attachment_data[{switch_attachment_list.attachments.ATTACH_POS}][attach_comment]" />
+				</div>
+				<!-- END attachments -->
+			</fieldset>
+		</details>
+		<!-- END switch_attachment_list -->
+
+		<!-- BEGIN switch_attachment -->
+		<details class="fal-volet" id="attachment">
+			<summary>{L_ATTACHMENT_ADD}</summary>
+			<fieldset class="fal-volet__corps fal-champs fields1" id="attachment_show">
+				<p class="fal-volet__aide">{L_ATTACHMENT_ADD_HELP}<br /><span class="info">{EXT_LIST}</span></p>
+				<div class="fal-champ">
+					<label for="fileupload">{L_ATTACHMENT_FILENAME}</label>
+					<div class="fal-champ__ligne">
+						<input type="file" id="fileupload" name="fileupload" />
+						<input class="button2" type="submit" name="add_file" />
+						<span class="fal-volet__aide">({L_MAX_ATT_SIZE})</span>
+					</div>
+				</div>
+				<div class="fal-champ">
+					<label for="filecomment">{L_ATTACH_COMMENT}</label>
+					<input class="inputbox" type="text" id="filecomment" name="filecomment" value="" maxlength="255" />
+				</div>
+			</fieldset>
+		</details>
+		<!-- END switch_attachment -->
+
+		<!-- BEGIN switch_roll_dice -->
+		<details class="fal-volet">
+			<summary>{ROLL_DICE_TITLE}</summary>
+			<div class="fal-volet__corps">
+				<script>
+					function add_dice(dice_number, dice, number) {
+						var content = document.getElementById('post_dice').innerHTML;
+						document.getElementById('dice_to_del').innerHTML = '';
+						document.getElementById('dice_to_del').id = '';
+						var new_tr = document.createElement('tr');
+						new_tr.appendChild(document.createElement('td'));
+						new_tr.firstChild.innerHTML = '{ROLL_DICE_TITLE_LOW} #' + (dice_number + 1) + ' : <select name="post_dice_' + dice_number + '" id="post_dice_' + dice_number + '" value="' + dice + '">' + content + '</select> <label for="nb_rolls">{switch_roll_dice.L_DICE_ROLLS} : </label><input type="text" size="2" maxlength="3" name="nb_rolls_' + dice_number + '" id="nb_rolls" value="' + number + '" /> <span id="dice_to_del"><a href="javascript:add_dice(' + (dice_number + 1) + ',\'\',1)">+</a></span>';
+						document.getElementById('list_dice').lastChild.appendChild(new_tr);
+						var select_dice = document.getElementById('post_dice_' + dice_number);
+						if (dice == '') select_dice.selectedIndex = 0;
+						for (var i = 1; select_dice.options[i]; i++) select_dice.options[i].selected = (select_dice.options[i].value == dice);
+					}
+				</script>
+				<table class="fal-des" id="list_dice"><tr><td>
+					{ROLL_DICE_TITLE_LOW} #1 :
+					<select name="post_dice_0" id="post_dice">
+						<option value="">-</option>
+						<!-- BEGIN row_replace -->
+						<option value="{switch_roll_dice.row_replace.DICE_ID}"{switch_roll_dice.row_replace.DICE_SELECTED}>{switch_roll_dice.row_replace.DICE_NAME}</option>
+						<!-- END row_replace -->
+					</select>
+					<label for="nb_rolls">{switch_roll_dice.L_DICE_ROLLS} : </label><input type="text" size="2" maxlength="3" name="nb_rolls_0" id="nb_rolls" value="{switch_roll_dice.S_DICE_ROLLS_VALUE}" />
+					<span id="dice_to_del"><a href="javascript:add_dice(1,'',1)">+</a></span>
+				</td></tr></table>
+				{switch_roll_dice.DICE_SCRIPT}
+			</div>
+		</details>
+		<!-- END switch_roll_dice -->
+
+		<!-- BEGIN switch_type_cal -->
+		<details class="fal-volet">
+			<summary>{L_CALENDAR}</summary>
+			<fieldset class="fal-volet__corps fal-champs">
+				<div class="fal-champ">
+					<span class="fal-champ__libelle">{L_CALENDAR_TITLE}</span>
+					<div class="fal-champ__ligne">
+						{S_CALENDAR_DAY} {S_CALENDAR_MONTH} {S_CALENDAR_YEAR}
+						<a href="javascript:void(0)" onclick="document.post.topic_calendar_day.value={TODAY_DAY};document.post.topic_calendar_month.value={TODAY_MONTH};document.post.topic_calendar_year.value={TODAY_YEAR}">{L_TODAY}</a>
+					</div>
+				</div>
+				<div class="fal-champ">
+					<span class="fal-champ__libelle">{L_TIME}</span>
+					<div class="fal-champ__ligne">
+						<input name="topic_calendar_hour" type="text" maxlength="2" value="{CALENDAR_HOUR}" class="inputbox tiny" /> {L_HOURS}
+						<input name="topic_calendar_min" type="text" maxlength="2" value="{CALENDAR_MIN}" class="inputbox tiny" /> {L_MINUTES}
+					</div>
+				</div>
+				<div class="fal-champ">
+					<span class="fal-champ__libelle">{L_CALENDAR_DURATION}</span>
+					<div class="fal-champ__ligne">
+						<input name="topic_calendar_duration_day" type="text" maxlength="5" value="{CALENDAR_DURATION_DAY}" class="inputbox tiny" /> {L_DAYS}
+						<input name="topic_calendar_duration_hour" type="text" maxlength="5" value="{CALENDAR_DURATION_HOUR}" class="inputbox tiny" /> {L_HOURS}
+						<input name="topic_calendar_duration_min" type="text" maxlength="5" value="{CALENDAR_DURATION_MIN}" class="inputbox tiny" /> {L_MINUTES}
+						<input name="create_event" type="hidden" value="{CREATE_EVENT}" />
+						<input name="calendar_d" type="hidden" value="{CALENDAR_D}" />
+					</div>
+				</div>
+			</fieldset>
+		</details>
+		<!-- END switch_type_cal -->
+
+		{POLLBOX}
+
+		<!-- BEGIN switch_type_seo -->
+		<details class="fal-volet">
+			<summary>{switch_type_seo.L_SEO}</summary>
+			<fieldset class="fal-volet__corps fal-champs">
+				<div class="fal-champ">
+					<label for="topic_seo_title">{switch_type_seo.L_SEO_TITLE}</label>
+					<div>
+						<input class="inputbox" type="text" maxlength="75" name="topic_seo_title" id="topic_seo_title" value="{switch_type_seo.SEO_TITLE}" />
+						<p class="fal-volet__aide">{switch_type_seo.L_SEO_TITLE_EXPLAIN}</p>
+					</div>
+				</div>
+				<div class="fal-champ">
+					<label for="topic_seo_description">{switch_type_seo.L_SEO_DESCRIPTION}</label>
+					<div>
+						<textarea name="topic_seo_description" id="topic_seo_description" maxlength="170" rows="3" class="inputbox">{switch_type_seo.SEO_DESCRIPTION}</textarea>
+						<p class="fal-volet__aide">{switch_type_seo.L_SEO_DESCRIPTION_EXPLAIN}</p>
+					</div>
+				</div>
+				<div class="fal-champ">
+					<label for="topic_og_img_twitter">{switch_type_seo.L_OG_IMG_TWITTER_URL}</label>
+					<div>
+						<input class="inputbox" type="url" maxlength="255" name="topic_og_img_twitter" id="topic_og_img_twitter" placeholder="https://..." value="{switch_type_seo.OG_IMG_TWITTER}" />
+						<p class="fal-volet__aide">{switch_type_seo.L_OG_IMG_TWITTER_EXPLAIN}</p>
+					</div>
+				</div>
+				<div class="fal-champ">
+					<label for="topic_og_img_facebook">{switch_type_seo.L_OG_IMG_FACEBOOK_URL}</label>
+					<div>
+						<input class="inputbox" type="url" maxlength="255" name="topic_og_img_facebook" id="topic_og_img_facebook" placeholder="https://..." value="{switch_type_seo.OG_IMG_FACEBOOK}" />
+						<p class="fal-volet__aide">{switch_type_seo.L_OG_IMG_FACEBOOK_EXPLAIN}</p>
+					</div>
+				</div>
+			</fieldset>
+		</details>
+		<!-- END switch_type_seo -->
+	</div>
+</form>
+
+<!-- BEGIN switch_jumpbox -->
+<form class="fal-saut" action="{S_JUMPBOX_ACTION}" method="get" name="jumpbox" onsubmit="if(document.jumpbox.f.value == -1){return false}">
+	<label>{L_JUMP_TO} : {S_JUMPBOX_SELECT}</label>
+	<input class="button2" type="submit" value="{L_GO}" />
+</form>
+<!-- END switch_jumpbox -->
+
+<div class="fal-revue">{TOPIC_REVIEW_BOX}</div>
+
+<!-- BEGIN switch_privmsg -->
+<div id="find_username" class="jqmWindow"></div>
+<div id="group_pm_explain" class="jqmWindow"></div>
+<script src="{JQUERY_DIR}jqmodal/jqmodal.js"></script>
+<!-- END switch_privmsg -->
+<script>
+	$(function () {
+
+		document.querySelectorAll('.fal-volets > .forum-hideable').forEach(function (titre) {
+			var corps = titre.nextElementSibling;
+			var volet = document.createElement('details');
+			var resume = document.createElement('summary');
+			var boite = document.createElement('div');
+			volet.className = 'fal-volet';
+			boite.className = 'fal-volet__corps';
+			resume.innerHTML = titre.innerHTML;
+			volet.appendChild(resume);
+			titre.replaceWith(volet);
+			if (corps) boite.appendChild(corps);
+			volet.appendChild(boite);
+		});
+		<!-- BEGIN switch_privmsg -->
+		privmsg_add_username('{U_SEARCH_USER}', '<br /><input class="inputbox" type="text" name="username[]" />');
+		<!-- END switch_privmsg -->
+		<!-- BEGIN switch_image_resize -->
+		resize_images({ 'selector': '.postbody .content', 'max_width': {switch_image_resize.IMG_RESIZE_WIDTH}, 'max_height': {switch_image_resize.IMG_RESIZE_HEIGHT} });
+		<!-- END switch_image_resize -->
+	});
+</script>
+
+{SCEDITOR}

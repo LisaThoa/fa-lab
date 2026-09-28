@@ -1,0 +1,342 @@
+/* fa-lab — thème « Bureau » : un bureau pixel, fenêtres à barre de titre sur
+   un damier. Pastel le jour, ardoise la nuit. À charger après fa-lab.css.
+   Ses réglages propres sont les variables --bt-*, une fois par mode. */
+
+@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&display=swap");
+
+:root {
+  --fal-fond: #f9eedd;
+  --fal-texte: #4f615e;
+  --fal-accent: #b85e47;
+  --fal-accent-contraste: #ffffff;
+  --fal-lien: #467572;
+  --fal-lien-survol: #b85e47;
+
+  --fal-police-texte: "IBM Plex Mono", ui-monospace, monospace;
+  --fal-police-interface: "IBM Plex Mono", ui-monospace, monospace;
+  --fal-police-titres: "Pixelify Sans", "IBM Plex Mono", monospace;
+  --fal-taille-texte: .9375rem;
+  --fal-interligne: 1.6;
+  --fal-taille-petite: .78rem;
+  --fal-graisse-titres: 600;
+  --fal-taille-titre-site: clamp(2.75rem, 1.6rem + 4vw, 4.5rem);
+  --fal-taille-titre-page: clamp(1.75rem, 1.3rem + 2vw, 2.75rem);
+  --fal-taille-titre-section: 1.1rem;
+  --fal-taille-titre-forum: 1.35rem;
+  --fal-taille-stat: 2rem;
+
+  --fal-arrondi: 0;
+  --fal-arrondi-petit: 0;
+  --fal-trait: 2px;
+  --fal-avatar-dernier-arrondi: 0;
+  --fal-illustration-arrondi: 0;
+  --fal-sous-forum-signe: ">";
+
+  --bt-damier: #f1e7d4;
+  --bt-fenetre: #ffffff;
+  --bt-bord: #839c99;
+  --bt-barre: #9bbfcb;
+  --bt-barre-texte: #1f3a42;
+  --bt-ombre: 6px 6px 0 #efd2c4;
+  --bt-ombre-bouton: 3px 3px 0 #839c99;
+  --bt-puce: #fff0cd;
+  --bt-champ: #fffaf0;
+  --bt-filet: #dfd6c6;
+  --bt-titre: #467572;
+  --bt-lueur: 3px 3px 0 #efd2c4;
+  --bt-terminal: #414f4b;
+  --bt-terminal-texte: #f3ead9;
+  --bt-invite: #b6d7ba;
+  --bt-marge: 1.25rem;
+  --bt-barre-hauteur: 1.9rem;
+  --bt-police-barre: "Pixelify Sans", monospace;
+  --bt-taille-barre: .95rem;
+  --bt-fond-page: repeating-conic-gradient(var(--bt-damier) 0 25%, var(--fal-fond) 0 50%) 0 0 / 24px 24px;
+}
+
+:root[data-fal-rendu="nuit"] {
+  --fal-fond: #262a31;
+  --fal-texte: #ece2d0;
+  --fal-accent: #efac9a;
+  --fal-accent-contraste: #262a31;
+  --fal-lien: #b6d7ba;
+  --fal-lien-survol: #efac9a;
+
+  --bt-damier: #2c3139;
+  --bt-fenetre: #343a44;
+  --bt-bord: #7d9794;
+  --bt-barre: #4b6c77;
+  --bt-barre-texte: #f3ead9;
+  --bt-ombre: 6px 6px 0 #1a1d22;
+  --bt-ombre-bouton: 3px 3px 0 #1a1d22;
+  --bt-puce: #3f4a4b;
+  --bt-champ: #2c3139;
+  --bt-filet: #4a525c;
+  --bt-titre: #b6d7ba;
+  --bt-lueur: 3px 3px 0 #1a1d22;
+  --bt-terminal: #1e2320;
+  --bt-terminal-texte: #f3ead9;
+  --bt-invite: #b6d7ba;
+}
+
+body.fal-corps { background: var(--bt-fond-page); }
+::selection { background: var(--fal-accent); color: var(--fal-accent-contraste); }
+
+h1, h2, h3, .fal-titre-site { color: var(--bt-titre); }
+
+.fal-entete, .fal-titre-page, .fal-categorie, .fal-sujets, .fal-message, .fal-bloc,
+.fal-enligne, .fal-fiche__portrait.module, .fal-fiche__contenu, .fal-redaction__principal.panel,
+.fal-volet, .fal-accueil__colonne > :not(:empty), .panel, .forumbg:not(.fal-sujets), .module {
+  background: var(--bt-fenetre);
+  border: 2px solid var(--bt-bord);
+  border-radius: 0;
+  box-shadow: var(--bt-ombre);
+}
+
+.fal-categorie__entete, .fal-sujets__entete, .fal-bloc__titre, .fal-enligne__entete,
+.fal-message__entete, .fal-titre-page::before, .fal-entete::before, .fal-fiche__portrait::before,
+.fal-fiche__contenu::before, .fal-volet > summary {
+  display: flex; align-items: center; gap: .75em;
+  min-height: var(--bt-barre-hauteur);
+  margin: 0;
+  padding: .15rem .75rem;
+  border: 0;
+  border-bottom: 2px solid var(--bt-bord);
+  background: var(--bt-barre);
+  color: var(--bt-barre-texte);
+  font: 400 var(--bt-taille-barre) / 1.2 var(--bt-police-barre);
+  text-transform: none;
+  letter-spacing: 0;
+  text-shadow: none;
+}
+
+.fal-categorie__entete::after, .fal-sujets__entete::after, .fal-bloc__titre::after,
+.fal-enligne__entete::after, .fal-titre-page::before, .fal-entete::before,
+.fal-fiche__portrait::before, .fal-fiche__contenu::before {
+  background-image:
+    linear-gradient(var(--bt-barre-texte), var(--bt-barre-texte)),
+    linear-gradient(var(--bt-barre-texte), var(--bt-barre-texte)),
+    linear-gradient(var(--bt-barre-texte), var(--bt-barre-texte));
+  background-size: 12px 12px, 12px 2px, 12px 2px;
+  background-position: right .75rem center, right 2rem bottom .5rem, right 3.25rem bottom .5rem;
+  background-repeat: no-repeat;
+}
+.fal-categorie__entete::after, .fal-sujets__entete::after, .fal-bloc__titre::after, .fal-enligne__entete::after {
+  content: ""; flex: 1; align-self: stretch; margin-right: -.75rem;
+}
+.fal-titre-page::before, .fal-entete::before, .fal-fiche__portrait::before, .fal-fiche__contenu::before {
+  content: "";
+}
+
+.fal-entete {
+  max-width: calc(var(--fal-largeur-page) - 2 * var(--fal-marge));
+  margin: var(--fal-marge) auto 0;
+  box-sizing: border-box;
+}
+@media (max-width: 47.99rem) { .fal-entete { margin-inline: var(--fal-marge); } }
+
+.fal-entete__titre { padding-block: 1.5rem 1.25rem; text-align: left; }
+.fal-titre-site { letter-spacing: -.01em; }
+.fal-titre-site a { text-shadow: var(--bt-lueur); }
+.fal-description-site { font-style: italic; }
+
+.fal-nav { border-top: 2px dashed var(--bt-filet); }
+.fal-nav__liens a.mainmenu {
+  padding: .3em .7em;
+  border: 2px solid transparent;
+  font-family: var(--bt-police-barre);
+  font-size: var(--bt-taille-barre);
+  text-transform: none; letter-spacing: 0;
+}
+.fal-nav__liens a.mainmenu:hover { border-color: var(--bt-bord); background: var(--bt-puce); color: var(--fal-texte); }
+@media (min-width: 48rem) {
+  .fal-nav__liens, .fal-nav__bascule:checked ~ .fal-nav__liens { justify-content: flex-start; gap: .25em; }
+}
+
+.fal-apparence { border: 2px solid var(--bt-bord); }
+.fal-apparence button { min-height: 2.5rem; font-family: var(--bt-police-barre); font-size: var(--bt-taille-barre); }
+.fal-apparence button + button { border-left: 2px solid var(--bt-bord); }
+.fal-apparence button:hover { background: var(--bt-puce); }
+
+.fal-bouton, .button1, .button2, input[type="submit"], input[type="button"], button.button1, button.button2, .btn {
+  border: 2px solid var(--bt-bord);
+  border-radius: 0;
+  box-shadow: var(--bt-ombre-bouton);
+  font-family: var(--bt-police-barre);
+  font-size: var(--bt-taille-barre);
+  font-weight: 400;
+  text-transform: none; letter-spacing: 0;
+}
+.fal-bouton:active, .button1:active, .button2:active, input[type="submit"]:active { translate: 2px 2px; box-shadow: none; }
+.button2, button.button2, input.button2, input[type="button"], .fal-bouton--discret { box-shadow: none; }
+
+.inputbox, input[type="text"], input[type="search"], input[type="password"], input[type="email"],
+input[type="url"], input[type="number"], select, textarea {
+  border: 2px solid var(--bt-bord);
+  border-radius: 0;
+  background: var(--bt-champ);
+}
+
+.pagination strong { background: var(--fal-accent); color: var(--fal-accent-contraste); }
+.pagination a, .pagination strong { border-radius: 0; font-family: var(--bt-police-barre); font-size: var(--bt-taille-barre); }
+
+.fal-titre-page { padding: 0; gap: 0; border-bottom: 2px solid var(--bt-bord); }
+.fal-titre-page > * { margin-inline: var(--bt-marge); }
+.fal-titre-page > .fal-fil { margin-top: var(--bt-marge); }
+.fal-titre-page > :last-child { margin-bottom: var(--bt-marge); }
+.fal-titre-page__titre { margin-block: .35rem; text-shadow: var(--bt-lueur); }
+.fal-fil { color: var(--fal-accent); text-transform: none; letter-spacing: 0; }
+.fal-titre-page .fal-actions { margin-top: .75rem; }
+
+.fal-categorie { margin-bottom: 2rem; }
+.fal-categorie__entete { padding-bottom: .15rem; }
+.fal-categorie__titre, .fal-sujets__titre { font: inherit; color: inherit; flex: none; }
+/* les titres que Forumactif glisse dans les barres prennent leur couleur */
+.fal-categorie__entete :is(h1, h2, h3), .fal-sujets__entete :is(h1, h2, h3), .fal-bloc__titre :is(h1, h2, h3, a),
+.fal-enligne__entete :is(h1, h2, h3, a), .fal-message__entete :is(h1, h2, h3, a) { color: inherit; text-shadow: none; }
+.fal-categorie__titre::before { display: none; }
+.fal-categorie__plier {
+  order: 2; width: 1.4rem; height: 1.4rem;
+  border: 2px solid var(--bt-barre-texte); border-radius: 0;
+  background: transparent; color: var(--bt-barre-texte);
+  font: inherit; line-height: 1;
+}
+.fal-categorie .fal-forums { padding-inline: var(--bt-marge); }
+
+.fal-forum { border-bottom: 2px dashed var(--bt-filet); }
+.fal-forum:last-child { border-bottom: 0; }
+.fal-forum__illustration { border: 2px solid var(--bt-bord); box-shadow: var(--bt-ombre-bouton); box-sizing: border-box; }
+.fal-forum__titre a { text-shadow: var(--bt-lueur); }
+.fal-forum__titre::before, .fal-sujet__statut { border-radius: 0; border: 2px solid var(--bt-bord); width: .7rem; height: .7rem; }
+.fal-forum__sous-forums a { border: 2px solid var(--bt-bord); border-radius: 0; background: var(--bt-puce); }
+.fal-forum__sous-forums a::before { color: var(--fal-accent); }
+
+.fal-chiffre dd { font-family: var(--fal-police-titres); font-size: 1.35rem; font-weight: 400; line-height: 1.1; }
+.fal-chiffre dt { text-transform: none; letter-spacing: 0; }
+
+.lastpost-avatar img { border: 2px solid var(--bt-bord); box-sizing: border-box; }
+.fal-forum__dernier, .fal-sujet__dernier { text-transform: none; letter-spacing: 0; }
+.fal-forum__dernier-sujet { font-family: var(--fal-police-texte); font-weight: 600; font-size: .85rem; color: var(--bt-titre); }
+
+.fal-raccourcis, .fal-barre, .fal-voisins { text-transform: none; letter-spacing: 0; }
+
+.fal-accueil__colonne > :not(:empty) { padding: 0 0 var(--bt-marge); overflow: hidden; }
+
+.fal-enligne {
+  --fal-fond: var(--bt-terminal);
+  --fal-texte: var(--bt-terminal-texte);
+  --fal-texte-doux: color-mix(in oklab, var(--bt-terminal-texte) 65%, var(--bt-terminal));
+  --fal-bordure: color-mix(in oklab, var(--bt-terminal-texte) 18%, var(--bt-terminal));
+  --bt-titre: var(--bt-terminal-texte);
+  margin-top: 2.5rem;
+  padding: 0 0 var(--bt-marge);
+  border-top: 2px solid var(--bt-bord);
+  background: var(--bt-terminal);
+  color: var(--bt-terminal-texte);
+}
+.fal-enligne > :not(.fal-enligne__entete) { margin-inline: var(--bt-marge); }
+.fal-enligne__entete { margin-bottom: var(--bt-marge); }
+.fal-enligne__titre { font: inherit; color: inherit; margin: 0; }
+.fal-enligne__chiffres::before {
+  content: "$ who"; grid-column: 1 / -1;
+  font: var(--fal-taille-petite) var(--fal-police-texte); color: var(--bt-invite);
+}
+.fal-stat strong { color: var(--bt-terminal-texte); font-weight: 400; }
+.fal-stat::after, .fal-liste[data-libelle]::before { text-transform: none; letter-spacing: 0; }
+.fal-liste a { border: 0; border-radius: 0; background: color-mix(in oklab, var(--bt-terminal-texte) 14%, var(--bt-terminal)); }
+.fal-liste a span[style*="color"] { color: var(--bt-terminal-texte) !important; }
+
+.fal-sujets { padding: 0; }
+.fal-sujets__entete { border-bottom: 2px solid var(--bt-bord); }
+.fal-sujets__liste { padding-inline: var(--bt-marge); }
+.fal-sujet { border-bottom: 2px dashed var(--bt-filet); }
+.fal-sujet:last-child { border-bottom: 0; }
+.fal-sujet__titre a { text-shadow: var(--bt-lueur); }
+.fal-sujet[data-fal-postit] { background: var(--bt-puce); }
+
+/* chaque message est une fenêtre : sa barre passe au-dessus du profil */
+
+.fal-messages { gap: 1.75rem; }
+.fal-separateur { display: none; }
+.fal-message {
+  padding: 0; gap: 0;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "barre" "profil" "texte" "reactions";
+}
+.fal-message__corps { display: contents; }
+.fal-message__entete { grid-area: barre; flex-wrap: wrap; row-gap: 0; }
+.fal-message__titre { flex: 1 1 auto; font: inherit; }
+.fal-message__titre a { color: inherit; }
+.fal-message__date { font-family: var(--fal-police-texte); font-size: var(--fal-taille-petite); color: inherit; opacity: .85; text-transform: none; letter-spacing: 0; }
+.fal-message .fal-outils { margin: 0; font-family: var(--fal-police-texte); }
+.fal-message .fal-outils a, .fal-message .fal-outils span[onclick] { color: var(--bt-barre-texte); }
+.fal-profil { grid-area: profil; padding: var(--bt-marge) var(--bt-marge) 0; }
+.fal-message__texte { grid-area: texte; padding: var(--bt-marge) var(--bt-marge) .5rem; }
+.fal-reactions { grid-area: reactions; margin: 0; padding: 0 var(--bt-marge) var(--bt-marge); }
+.fal-message > .fal-ancre { grid-area: barre; }
+
+@media (min-width: 48rem) {
+  .fal-message {
+    grid-template-columns: var(--fal-profil) minmax(0, 1fr);
+    grid-template-areas: "barre barre" "profil texte" "profil reactions";
+  }
+  .fal-profil { padding-bottom: var(--bt-marge); border-right: 2px dashed var(--bt-filet); position: static; }
+  .fal-profil__avatar img { width: 8rem; height: 8rem; border: 2px solid var(--bt-bord); border-radius: 0; box-shadow: var(--bt-ombre-bouton); }
+  .fal-reactions { align-self: end; }
+}
+.fal-profil__avatar img { border-radius: 0; }
+.fal-profil__nom { font-family: var(--fal-police-titres); font-size: 1.3rem; text-shadow: var(--bt-lueur); }
+.fal-profil__rang { text-transform: none; letter-spacing: 0; }
+
+.postbody blockquote { border-left: 4px solid var(--fal-accent); border-radius: 0; background: var(--bt-puce); }
+.postbody blockquote cite { color: var(--fal-accent); }
+.postbody .codebox, .postbody pre {
+  border: 2px solid var(--bt-bord); border-radius: 0;
+  background: var(--bt-terminal); color: var(--bt-terminal-texte);
+}
+.postbody .codebox dt { color: var(--bt-invite); border-bottom: 2px solid var(--bt-bord); }
+
+.rep-button { border: 2px solid var(--bt-bord); border-radius: 0; background: var(--bt-puce); color: var(--fal-texte); }
+.rep-button.active, .rep-button.voted { background: var(--fal-accent); color: var(--fal-accent-contraste); }
+
+.fal-reponse-rapide > * { background: var(--bt-fenetre); border: 2px solid var(--bt-bord); box-shadow: var(--bt-ombre); padding: var(--bt-marge); }
+
+.fal-redaction__principal.panel { padding: var(--bt-marge); }
+.fal-champ > label, .fal-champ__libelle { text-transform: none; letter-spacing: 0; }
+.fal-envoi { border-top: 2px solid var(--bt-bord); background: color-mix(in oklab, var(--bt-fenetre) 94%, transparent); }
+.fal-volet > summary { border-bottom-color: transparent; }
+.fal-volet[open] > summary { border-bottom-color: var(--bt-bord); }
+
+.fal-fiche__portrait.module, .fal-fiche__contenu { padding: 0; }
+.fal-fiche__portrait.module > * { margin-inline: var(--bt-marge); }
+.fal-fiche__avatar { margin-top: var(--bt-marge); }
+.fal-fiche__avatar img { border: 2px solid var(--bt-bord); border-radius: 0; box-shadow: var(--bt-ombre-bouton); }
+.fal-fiche__portrait.module > :last-child { margin-bottom: var(--bt-marge); }
+.fal-fiche__nom { text-shadow: var(--bt-lueur); }
+.fal-fiche__contenu > * { margin-inline: var(--bt-marge); }
+.fal-fiche__contenu > :last-child { padding-bottom: var(--bt-marge); }
+
+.fal-onglets { margin-top: var(--bt-marge); border-bottom: 2px solid var(--bt-bord); }
+.fal-onglets li a {
+  padding: .45em .9em; margin-bottom: -2px;
+  border: 2px solid transparent; border-bottom: 0;
+  font-family: var(--bt-police-barre); font-size: var(--bt-taille-barre);
+  text-transform: none; letter-spacing: 0;
+}
+.fal-onglets li.activetab a { border-color: var(--bt-bord); background: var(--bt-fenetre); color: var(--bt-titre); }
+.fal-onglets ul { gap: .15em; }
+.fal-fiche__champ { border-bottom: 2px dashed var(--bt-filet); }
+.fal-fiche__champ dt { text-transform: none; letter-spacing: 0; }
+.fal-fiche__groupe h3 { border-bottom: 2px solid var(--bt-bord); }
+.fal-fiche__groupe li { border-bottom: 2px dashed var(--bt-filet); }
+
+.fal-pied { border-top: 2px dashed var(--bt-bord); text-transform: none; letter-spacing: 0; }
+
+#fa_toolbar {
+  --fal-barre-fond: var(--bt-barre);
+  --fal-barre-texte: var(--bt-barre-texte);
+  border-bottom: 2px solid var(--bt-bord);
+  font-family: var(--fal-police-texte);
+}
+#fa_menulist, #notif_list { border: 2px solid var(--bt-bord); border-radius: 0; box-shadow: var(--bt-ombre); background: var(--bt-fenetre); }
+#fa_search #fa_textarea { border-radius: 0; }

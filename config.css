@@ -1,0 +1,98 @@
+/* =============================================================================
+ *  fa-lab — CONFIGURATION
+ *  -----------------------------------------------------------------------------
+ *  Tous les réglages de la base, avec leur valeur par défaut. Ce fichier est
+ *  INERTE tel quel : tout est en commentaire. On décommente ce qu'on veut
+ *  changer, et on colle le résultat dans PA → Affichage → Couleurs → CSS,
+ *  APRÈS fa-lab.css (et après le thème, s'il y en a un).
+ *
+ *  Le plus souvent, les trois couleurs suffisent : tout le reste en découle.
+ * ========================================================================== */
+
+:root {
+
+  /* --- le mode sombre --------------------------------------------------------
+   *  Par défaut, le forum suit le réglage de l'appareil du visiteur.
+   *  light → toujours clair · dark → toujours sombre
+   */
+  /* color-scheme: light; */
+
+  /* --- les trois couleurs -----------------------------------------------------
+   *  light-dark(clair, sombre) : une valeur pour chaque mode. Une seule
+   *  couleur suffit si on a imposé le mode ci-dessus.
+   */
+  /* --fal-fond: light-dark(#ffffff, #141417); */
+  /* --fal-texte: light-dark(#1c1c21, #e8e8ec); */
+  /* --fal-accent: light-dark(#3d5afe, #8c9eff); */
+
+  /*  Le texte posé sur l'accent (boutons pleins). */
+  /* --fal-accent-contraste: var(--fal-fond); */
+
+  /* --- les couleurs dérivées --------------------------------------------------
+   *  Calculées à partir des trois premières. À ne remplacer que pour un
+   *  effet précis.
+   */
+  /* --fal-texte-doux: color-mix(in oklab, var(--fal-texte) 62%, var(--fal-fond)); */
+  /* --fal-surface: color-mix(in oklab, var(--fal-texte) 4%, var(--fal-fond)); */
+  /* --fal-bordure: color-mix(in oklab, var(--fal-texte) 14%, var(--fal-fond)); */
+  /* --fal-accent-doux: color-mix(in oklab, var(--fal-accent) 12%, var(--fal-fond)); */
+  /* --fal-lien: var(--fal-accent); */
+
+  /*  La barre d'outils Forumactif, en haut de page. */
+  /* --fal-barre-fond: var(--fal-texte); */
+  /* --fal-barre-texte: var(--fal-fond); */
+
+  /* --- typographie -------------------------------------------------------------
+   *  Trois rôles : le texte des messages, les titres, l'interface (menus,
+   *  dates, chiffres). Pour une police Google Fonts, ajouter son @import en
+   *  toute première ligne de la feuille.
+   */
+  /* --fal-police-texte: system-ui, sans-serif; */
+  /* --fal-police-titres: var(--fal-police-texte); */
+  /* --fal-police-interface: var(--fal-police-texte); */
+  /* --fal-police-code: ui-monospace, Menlo, monospace; */
+
+  /* --fal-taille-texte: 1rem; */
+  /* --fal-interligne: 1.6; */
+  /* --fal-taille-petite: .8125rem; */
+  /* --fal-taille-titre-site: clamp(2rem, 1.2rem + 3.5vw, 3.5rem); */
+  /* --fal-taille-titre-page: clamp(1.75rem, 1.2rem + 2.4vw, 2.75rem); */
+  /* --fal-taille-titre-section: 1.25rem; */
+  /* --fal-taille-titre-forum: 1.125rem; */
+  /* --fal-graisse-titres: 700; */
+
+  /*  L'interface en capitales espacées : uppercase et .08em */
+  /* --fal-interface-casse: none; */
+  /* --fal-interface-espacement: 0; */
+
+  /* --- mise en page ------------------------------------------------------------ */
+  /* --fal-largeur-page: 72rem; */
+  /* --fal-largeur-texte: 44rem;    longueur de ligne d'un message */
+  /* --fal-colonne: 20rem;          la colonne des plugins, sur l'accueil */
+  /* --fal-profil: 11rem;           la colonne du profil, dans un sujet */
+  /* --fal-arrondi: 8px; */
+  /* --fal-avatar: 4.5rem; */
+
+  /* --- l'index ------------------------------------------------------------------
+   *  Illustrations : block pour en donner une à chaque section, puis une règle
+   *  par section en dehors de :root :
+   *    .fal-forum[data-lien^="/f5-"] { --fal-illustration: url(https://…); }
+   */
+  /* --fal-illustrations: none; */
+  /* --fal-illustration-largeur: 7rem; */
+  /* --fal-illustration-ratio: 1;           16 / 9, 4 / 5… */
+  /* --fal-illustration-ratio-mobile: 3;    bandeau sur petit écran */
+  /* --fal-illustration-arrondi: var(--fal-arrondi); */
+  /* --fal-sous-forum-signe: "↳"; */
+  /* --fal-retrait-sous-forum: 2rem; */
+  /* --fal-avatar-dernier: 2.75rem;         l'avatar du dernier posteur */
+  /* --fal-avatar-dernier-arrondi: 50%; */
+  /* --fal-taille-stat: 2.25rem;            les nombres de « qui est en ligne » */
+  /* --fal-liste-libelle: 9rem; */
+
+  /* --- détails ------------------------------------------------------------------ */
+  /* --fal-apparence-affichage: flex;  none : pas de bouton jour / nuit */
+  /* --fal-logo-affichage: none;    block pour afficher l'image {LOGO} */
+  /* --fal-nav-icones: none;        inline pour garder les icônes du menu */
+  /* --fal-numeroter-categories: none;   decimal-leading-zero → 01, 02… */
+}

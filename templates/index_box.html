@@ -1,0 +1,131 @@
+<ul class="fal-raccourcis linklist top">
+	<!-- BEGIN switch_user_logged_in -->
+	<li><a href="{U_SEARCH_NEW}">{L_SEARCH_NEW}</a></li>
+	<li><a href="{U_SEARCH_SELF}">{L_SEARCH_SELF}</a></li>
+	<!-- END switch_user_logged_in -->
+	<li><a href="{U_SEARCH_UNANSWERED}">{L_SEARCH_UNANSWERED}</a></li>
+	<!-- BEGIN switch_user_logged_in -->
+	<li class="rightside"><a href="{U_MARK_READ}" accesskey="m">{L_MARK_FORUMS_READ}</a></li>
+	<!-- END switch_user_logged_in -->
+</ul>
+
+<!-- BEGIN catrow -->
+	<!-- BEGIN tablehead -->
+	<section class="fal-categorie forabg">
+		<header class="fal-categorie__entete header">
+			<!-- L_FORUM contient déjà un h2 quand les catégories sont séparées. -->
+			<div class="fal-categorie__titre table-title">{catrow.tablehead.L_FORUM}</div>
+			<button type="button" class="fal-categorie__plier" aria-expanded="true" data-plier-afficher="{L_EXPEND_CAT}" data-plier-masquer="{L_HIDE_CAT}" title="{L_HIDE_CAT}"></button>
+		</header>
+		<ul class="fal-forums topiclist forums">
+	<!-- END tablehead -->
+
+	<!-- BEGIN forumrow -->
+			<!-- data-lien : pour régler une section depuis la feuille, ex. .fal-forum[data-lien^="/f5-"] -->
+			<li class="fal-forum row" data-niveau="{catrow.forumrow.LEVEL}" data-retrait="{catrow.forumrow.INC_LEVEL}" data-lien="{catrow.forumrow.U_VIEWFORUM}" style="--fal-statut: url('{catrow.forumrow.FORUM_FOLDER_IMG}');">
+				<a class="fal-forum__illustration" href="{catrow.forumrow.U_VIEWFORUM}" tabindex="-1" aria-hidden="true"></a>
+				<div class="fal-forum__infos">
+					<h{catrow.forumrow.LEVEL} class="fal-forum__titre hierarchy">
+						<a href="{catrow.forumrow.U_VIEWFORUM}" class="forumtitle">{catrow.forumrow.FORUM_NAME}</a>
+					</h{catrow.forumrow.LEVEL}>
+					<div class="fal-forum__description">{catrow.forumrow.FORUM_DESC}</div>
+					<!-- BEGIN switch_moderators_links -->
+					<p class="fal-forum__moderateurs">{catrow.forumrow.switch_moderators_links.L_MODERATOR}{catrow.forumrow.switch_moderators_links.MODERATORS}</p>
+					<!-- END switch_moderators_links -->
+
+					<div class="fal-forum__sous-forums">{catrow.forumrow.L_LINKS}{catrow.forumrow.LINKS}</div>
+				</div>
+
+				<dl class="fal-forum__chiffres">
+					<div class="fal-chiffre"><dt>{L_TOPICS}</dt><dd class="topics">{catrow.forumrow.TOPICS}</dd></div>
+					<div class="fal-chiffre"><dt>{L_POSTS}</dt><dd class="posts">{catrow.forumrow.POSTS}</dd></div>
+				</dl>
+
+				<div class="fal-forum__dernier lastpost">
+					<!-- BEGIN ads -->
+					<span class="AD_LastPA">
+						<span class="lastpost-avatar"><img src="{catrow.forumrow.ads.IMG}" alt="{catrow.forumrow.ads.TITLE}" /></span>
+						<span class="AD_LastInfos">
+							<a href="{catrow.forumrow.ads.LINK}">{catrow.forumrow.ads.TITLE}</a>
+							{catrow.forumrow.ads.DATE}<br />
+							{catrow.forumrow.ads.LOCATION}
+						</span>
+					</span>
+					<!-- END ads -->
+
+					<!-- BEGIN avatar -->
+					<span class="lastpost-avatar">{catrow.forumrow.avatar.LAST_POST_AVATAR}</span>
+					<!-- END avatar -->
+
+					<span class="lastpost-infos">
+						<!-- BEGIN switch_topic_title -->
+						<a class="fal-forum__dernier-sujet" href="{catrow.forumrow.U_LATEST_TOPIC}" title="{catrow.forumrow.LATEST_TOPIC_TITLE}">{catrow.forumrow.LATEST_TOPIC_NAME}</a><br />
+						<!-- END switch_topic_title -->
+						{catrow.forumrow.USER_LAST_POST}
+					</span>
+				</div>
+			</li>
+	<!-- END forumrow -->
+
+	<!-- BEGIN tablefoot -->
+		</ul>
+	</section>
+	<!-- END tablefoot -->
+<!-- END catrow -->
+
+<!-- BEGIN switch_forum_images -->
+<section class="fal-categorie fal-images forabg">
+	<header class="fal-categorie__entete header">
+		<div class="fal-categorie__titre table-title">{switch_forum_images.TITLE}</div>
+	</header>
+	<div class="container-imgs-list" id="imageList">
+		{switch_forum_images.SCRIPTS}
+	</div>
+</section>
+<!-- END switch_forum_images -->
+
+<!-- BEGIN switch_on_index -->
+<ul class="fal-raccourcis linklist bottom">
+	<li><a href="{U_TODAY_ACTIVE}">{L_TODAY_ACTIVE}</a></li>
+	<li><a href="{U_TODAY_POSTERS}">{L_TODAY_POSTERS}</a></li>
+	<li><a href="{U_OVERALL_POSTERS}">{L_OVERALL_POSTERS}</a></li>
+	<!-- BEGIN switch_delete_cookies -->
+	<li class="rightside"><a href="{switch_on_index.switch_delete_cookies.U_DELETE_COOKIES}" rel="nofollow">{switch_on_index.switch_delete_cookies.L_DELETE_COOKIES}</a></li>
+	<!-- END switch_delete_cookies -->
+</ul>
+<!-- END switch_on_index -->
+
+<script>
+
+(function () {
+	var CLE = 'fal-plies';
+	var plies = [];
+	try { plies = JSON.parse(localStorage.getItem(CLE)) || []; } catch (e) { void e; }
+
+	function enregistrer() {
+		try { localStorage.setItem(CLE, JSON.stringify(plies)); } catch (e) { void e; }
+	}
+
+	function appliquer(section, plie) {
+		var bouton = section.querySelector('.fal-categorie__plier');
+		section.classList.toggle('fal-categorie--pliee', plie);
+		bouton.setAttribute('aria-expanded', String(!plie));
+		bouton.title = plie ? bouton.dataset.plierAfficher : bouton.dataset.plierMasquer;
+	}
+
+	document.querySelectorAll('.fal-categorie').forEach(function (section) {
+		var bouton = section.querySelector('.fal-categorie__plier');
+		if (!bouton) return;
+		var nom = section.querySelector('.fal-categorie__titre').textContent.trim();
+		appliquer(section, plies.indexOf(nom) > -1);
+
+		bouton.addEventListener('click', function () {
+			var plie = !section.classList.contains('fal-categorie--pliee');
+			plies = plies.filter(function (n) { return n !== nom; });
+			if (plie) plies.push(nom);
+			enregistrer();
+			appliquer(section, plie);
+		});
+	});
+})();
+</script>
