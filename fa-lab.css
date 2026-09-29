@@ -1234,6 +1234,12 @@ a:has(> img[src*="newest"])::after, a:has(> img[src*="latest"])::after { content
 #cp-main .inputbox, #cp-main textarea { width: min(100%, 28rem); }
 #cp-main textarea { width: 100%; }
 #cp-main fieldset.submit-buttons { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5em; margin-top: var(--fal-espace); }
+#cp-main > form ~ :is(form, div:has(> form)) { margin-top: 1.75rem; }
+form[name="jumpbox"]:not(.fal-saut) p, form[name="jumpbox"]:not(.fal-saut) {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: .5em;
+  margin-block: var(--fal-espace); font-size: var(--fal-taille-petite);
+}
+form[name="jumpbox"]:not(.fal-saut) p { margin: 0; }
 
 /* Les pages que fa-lab ne redessine pas encore (recherche, membres,
    messagerie…) : leur balisage ModernBB, rendu lisible. */
