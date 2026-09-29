@@ -81,6 +81,99 @@
 </script>
 <!-- END switch_topicit_connect -->
 
+<!-- Le dock : les plugins dans des panneaux flottants, ouverts par des onglets au bord droit.
+     data-plugin : l'objet que le plugin installe ; sans lui, l'onglet et le panneau disparaissent.
+     Un plugin configuré avec manuel: true n'est lancé qu'à la première ouverture de son panneau.
+     Les scripts des plugins se chargent à la toute fin de ce template. -->
+<div class="fal-dock" id="fal-dock">
+	<div class="fal-dock__onglets" role="toolbar" aria-label="Widgets" aria-orientation="vertical">
+		<button type="button" class="fal-dock__onglet" aria-controls="fal-dock-updates" aria-expanded="false">Derniers sujets</button>
+		<button type="button" class="fal-dock__onglet" aria-controls="fal-dock-feed" aria-expanded="false">Le fil</button>
+	</div>
+	<section class="fal-dock__panneau fal-categorie" id="fal-dock-updates" data-plugin="FAUpdates" data-config="FA_UPDATES_CONFIG" aria-label="Derniers sujets" hidden>
+		<header class="fal-categorie__entete">
+			<h2 class="fal-categorie__titre">Derniers sujets</h2>
+			<button type="button" class="fal-dock__fermer" aria-label="Fermer" title="Fermer"></button>
+		</header>
+		<div class="fal-dock__corps"><div id="fa-updates"></div></div>
+	</section>
+	<section class="fal-dock__panneau fal-categorie" id="fal-dock-feed" data-plugin="FAFeed" data-config="FA_FEED_CONFIG" aria-label="Le fil" hidden>
+		<header class="fal-categorie__entete">
+			<h2 class="fal-categorie__titre">Le fil</h2>
+			<button type="button" class="fal-dock__fermer" aria-label="Fermer" title="Fermer"></button>
+		</header>
+		<div class="fal-dock__corps"><div id="fa-feed"></div></div>
+	</section>
+</div>
+
+<script>
+	(function () {
+		var dock = document.getElementById('fal-dock');
+		if (!dock) return;
+		var CLE = 'fal-dock';
+
+		function lire() { try { return localStorage.getItem(CLE); } catch (e) { return null; } }
+		function ecrire(v) { try { if (v) localStorage.setItem(CLE, v); else localStorage.removeItem(CLE); } catch (e) { void e; } }
+
+		function brancher() {
+			[].slice.call(dock.querySelectorAll('.fal-dock__onglet')).forEach(function (o) {
+				var p = document.getElementById(o.getAttribute('aria-controls'));
+				if (!p || !window[p.dataset.plugin]) {
+					o.remove();
+					if (p) p.remove();
+				}
+			});
+			var onglets = [].slice.call(dock.querySelectorAll('.fal-dock__onglet'));
+			if (!onglets.length) { dock.remove(); return; }
+			document.documentElement.classList.add('fal-avec-dock');
+
+			function panneau(o) { return document.getElementById(o.getAttribute('aria-controls')); }
+
+			function fermer(o, rendre) {
+				var p = panneau(o);
+				if (p.hidden) return;
+				p.hidden = true;
+				o.setAttribute('aria-expanded', 'false');
+				if (!dock.querySelector('.fal-dock__panneau:not([hidden])')) { dock.classList.remove('fal-dock--ouvert'); ecrire(null); }
+				if (rendre) o.focus();
+			}
+
+			function ouvrir(o, focus) {
+				onglets.forEach(function (x) { if (x !== o) fermer(x); });
+				var p = panneau(o);
+				p.hidden = false;
+				o.setAttribute('aria-expanded', 'true');
+				dock.classList.add('fal-dock--ouvert');
+				ecrire(p.id);
+				var plugin = window[p.dataset.plugin], conf = window[p.dataset.config];
+				if (!p.dataset.lance && conf && conf.manuel && plugin.init) {
+					p.dataset.lance = '1';
+					plugin.init(conf);
+				}
+				if (focus) p.querySelector('.fal-dock__fermer').focus();
+			}
+
+			onglets.forEach(function (o) {
+				o.addEventListener('click', function () {
+					if (panneau(o).hidden) ouvrir(o, true); else fermer(o);
+				});
+				panneau(o).querySelector('.fal-dock__fermer').addEventListener('click', function () { fermer(o, true); });
+			});
+
+			dock.addEventListener('keydown', function (ev) {
+				if (ev.key !== 'Escape') return;
+				onglets.forEach(function (o) { if (!panneau(o).hidden) fermer(o, true); });
+			});
+
+			var memo = lire();
+			onglets.forEach(function (o) { if (o.getAttribute('aria-controls') === memo) ouvrir(o, false); });
+		}
+
+		if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', brancher);
+		else brancher();
+	})();
+</script>
+
 <script>
 	(function () {
 		var boite = document.getElementById('fal-compte');

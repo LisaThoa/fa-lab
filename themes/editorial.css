@@ -85,12 +85,8 @@
 .fal-forum__description, .fal-sujet__description { font-style: italic; }
 .fal-chiffre dd { font-family: var(--fal-police-titres); font-size: 1.25rem; font-weight: 500; }
 
-.fal-accueil__colonne {
-  padding-left: 0;
-}
-@media (min-width: 64rem) {
-  .fal-accueil__colonne { padding-left: 2rem; border-left: 1px solid var(--fal-bordure); }
-}
+.fal-dock .fal-dock__panneau { border-radius: 0; box-shadow: 0 .5rem 2.5rem color-mix(in oklab, var(--fal-texte) 12%, transparent); }
+.fal-dock__onglet { border-radius: 0; font-family: var(--fal-police-titres); font-style: italic; }
 
 .fal-profil__nom { font-family: var(--fal-police-titres); font-size: 1.15rem; font-weight: 600; }
 .fal-profil__avatar img { border-radius: 2px; filter: grayscale(.15); }

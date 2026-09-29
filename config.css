@@ -68,7 +68,7 @@
   /* --- mise en page ------------------------------------------------------------ */
   /* --fal-largeur-page: 72rem; */
   /* --fal-largeur-texte: 44rem;    longueur de ligne d'un message */
-  /* --fal-colonne: 20rem;          la colonne des plugins, sur l'accueil */
+  /* --fal-dock-largeur: 22rem;     la largeur d'un panneau du dock des plugins */
   /* --fal-profil: 11rem;           la colonne du profil, dans un sujet */
   /* --fal-arrondi: 8px; */
   /* --fal-avatar: 4.5rem;          largeur de l'avatar dans un message ; 100% = toute la colonne */

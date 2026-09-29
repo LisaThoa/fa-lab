@@ -113,19 +113,26 @@
 		bouton.title = plie ? bouton.dataset.plierAfficher : bouton.dataset.plierMasquer;
 	}
 
-	document.querySelectorAll('.fal-categorie').forEach(function (section) {
-		var bouton = section.querySelector('.fal-categorie__plier');
-		if (!bouton) return;
-		var nom = section.querySelector('.fal-categorie__titre').textContent.trim();
-		appliquer(section, plies.indexOf(nom) > -1);
+	/* Après le chargement : les fenêtres des plugins, dans index_body, viennent après ce template. */
+	function brancher() {
+		document.querySelectorAll('.fal-categorie').forEach(function (section) {
+			var bouton = section.querySelector('.fal-categorie__plier');
+			if (!bouton || section.dataset.plier) return;
+			section.dataset.plier = '1';
+			var nom = section.querySelector('.fal-categorie__titre').textContent.trim();
+			appliquer(section, plies.indexOf(nom) > -1);
 
-		bouton.addEventListener('click', function () {
-			var plie = !section.classList.contains('fal-categorie--pliee');
-			plies = plies.filter(function (n) { return n !== nom; });
-			if (plie) plies.push(nom);
-			enregistrer();
-			appliquer(section, plie);
+			bouton.addEventListener('click', function () {
+				var plie = !section.classList.contains('fal-categorie--pliee');
+				plies = plies.filter(function (n) { return n !== nom; });
+				if (plie) plies.push(nom);
+				enregistrer();
+				appliquer(section, plie);
+			});
 		});
-	});
+	}
+
+	if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', brancher);
+	else brancher();
 })();
 </script>

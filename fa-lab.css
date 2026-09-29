@@ -41,7 +41,7 @@
   --fal-largeur-texte: 44rem;
   --fal-marge: clamp(1rem, 4vw, 2.5rem);
   --fal-espace: 1rem;
-  --fal-colonne: 20rem;
+  --fal-dock-largeur: 22rem;
   --fal-profil: 11rem;
   --fal-arrondi: 8px;
   --fal-arrondi-petit: 4px;
@@ -475,18 +475,7 @@ textarea { width: 100%; min-height: 10em; }
 }
 .fal-connexion .inputbox { width: 11rem; }
 
-.fal-accueil { display: grid; gap: calc(var(--fal-espace) * 2); }
 .fal-accueil__principal { min-width: 0; }
-.fal-accueil__colonne { display: grid; gap: calc(var(--fal-espace) * 2); align-content: start; }
-.fal-accueil__colonne:not(:has(> :not(:empty))) { display: none; }
-
-@media (min-width: 64rem) {
-  .fal-accueil:has(.fal-accueil__colonne > :not(:empty)) {
-    grid-template-columns: minmax(0, 1fr) var(--fal-colonne);
-  }
-  .fal-accueil__colonne { position: sticky; top: var(--fal-espace); }
-}
-
 .fal-edito { margin-bottom: calc(var(--fal-espace) * 2.5); max-width: var(--fal-largeur-texte); }
 .fal-edito__titre { font-size: var(--fal-taille-titre-section); margin-bottom: .5em; }
 
@@ -1279,3 +1268,52 @@ dl.fields2 dd, dl.fields1 dd { margin: 0; }
 .right { text-align: right; }
 .clear { clear: both; }
 .hidden, .invisible { display: none !important; }
+
+/* --- Le dock : les plugins dans des panneaux flottants, au bord droit ------ */
+
+.fal-dock {
+  position: fixed; z-index: 90; inset: 0 0 0 auto;
+  display: flex; flex-direction: row-reverse; align-items: center;
+  pointer-events: none;
+}
+.fal-dock > * { pointer-events: auto; }
+
+.fal-dock__onglets { display: flex; flex-direction: column; gap: .5rem; }
+.fal-dock__onglet {
+  writing-mode: vertical-rl;
+  padding: .9em .4em;
+  border: var(--fal-trait) solid var(--fal-bordure-forte); border-right: 0;
+  border-radius: var(--fal-arrondi-petit) 0 0 var(--fal-arrondi-petit);
+  background: var(--fal-fond); color: var(--fal-texte);
+  font: inherit; font-size: var(--fal-taille-petite);
+  cursor: pointer;
+}
+.fal-dock__onglet:hover { color: var(--fal-accent); }
+.fal-dock__onglet[aria-expanded="true"] { background: var(--fal-accent); border-color: var(--fal-accent); color: var(--fal-accent-contraste); }
+
+.fal-dock .fal-dock__panneau {
+  display: flex; flex-direction: column;
+  width: min(var(--fal-dock-largeur), calc(100vw - 3rem));
+  max-height: calc(100vh - 2 * var(--fal-espace));
+  background: var(--fal-fond);
+  border: var(--fal-trait) solid var(--fal-bordure-forte);
+  border-radius: var(--fal-arrondi);
+  box-shadow: 0 .5rem 2rem color-mix(in oklab, var(--fal-texte) 18%, transparent);
+}
+.fal-dock .fal-dock__panneau[hidden] { display: none; }
+.fal-dock .fal-categorie__entete { padding: .5em .75em; }
+.fal-dock .fal-categorie__titre { font-size: inherit; margin: 0; }
+.fal-dock .fal-categorie__titre::before { content: none; }
+.fal-dock__fermer {
+  width: 1.75rem; height: 1.75rem; padding: 0;
+  border: var(--fal-trait) solid var(--fal-bordure); border-radius: 50%;
+  background: transparent; color: var(--fal-texte-doux);
+  font: inherit; line-height: 1;
+  cursor: pointer;
+}
+.fal-dock__fermer::before { content: "×"; }
+.fal-dock__corps {
+  flex: 1; min-height: 0;
+  overflow-y: auto; overscroll-behavior: contain;
+  scrollbar-width: thin;
+}

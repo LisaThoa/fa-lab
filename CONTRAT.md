@@ -84,17 +84,42 @@ pourrait échouer ailleurs sans qu'on le voie.
 
 ## Les emplacements des plugins
 
-Dans `index_body`, une colonne à droite de l'accueil :
+Dans `overall_footer_end`, donc sur toutes les pages : **le dock**, une rangée
+d'onglets au bord droit de l'écran. Chaque onglet ouvre le panneau de son
+plugin, par-dessus la page ; un seul panneau est ouvert à la fois, il se ferme
+par le ×, par Échap ou par son onglet, et le panneau ouvert est retenu d'une
+page à l'autre.
 
 ```html
-<aside class="fal-accueil__colonne">
-  <div id="fa-updates"></div>
-  <div id="fa-feed"></div>
-</aside>
+<div class="fal-dock" id="fal-dock">
+  <div class="fal-dock__onglets">
+    <button class="fal-dock__onglet" aria-controls="fal-dock-feed" aria-expanded="false">Le fil</button>
+  </div>
+  <section class="fal-dock__panneau fal-categorie" id="fal-dock-feed"
+           data-plugin="FAFeed" data-config="FA_FEED_CONFIG" hidden>
+    <header class="fal-categorie__entete">…<button class="fal-dock__fermer"></button></header>
+    <div class="fal-dock__corps"><div id="fa-feed"></div></div>
+  </section>
+</div>
 ```
 
-La colonne n'apparaît que si l'un des deux a reçu du contenu. Un forum sans
-plugins n'a donc rien à retirer.
+- **Un plugin absent n'a pas d'onglet.** Au chargement, un panneau dont l'objet
+  `data-plugin` (`FAFeed`, `FAUpdates`) n'existe pas est retiré avec son onglet,
+  et le dock entier s'il n'en reste aucun. Un forum sans plugins n'a donc rien à
+  retirer.
+- **Les scripts des plugins se chargent après le dock**, à la fin de
+  `overall_footer_end`.
+- **`manuel: true`** dans la configuration du plugin : le dock ne le lance qu'à
+  la première ouverture de son panneau. Rien n'est lu tant que personne n'ouvre
+  l'onglet. Sans `manuel`, le plugin se lance au chargement, panneau fermé ou
+  non.
+- Le titre du panneau est celui du template : on laisse le `titre` du plugin à
+  `null` pour ne pas l'écrire deux fois.
+- Réglages : `--fal-dock-largeur` (22rem). Le panneau prend la hauteur de son
+  contenu, jusqu'à celle de l'écran ; au-delà, son corps défile.
+
+Un autre plugin s'ajoute en recopiant un onglet et un panneau, avec son propre
+`data-plugin`.
 
 ---
 
@@ -107,8 +132,9 @@ modifié puisque le balisage concerné est conservé tel quel :
   la liste par défaut (`a.post_date`, `.postdetails .date`, `.date`) ne
   contient pas. La date du message reste vide.
 - **fa-updates, dernier posteur** : dans `.lastpost`, ModernBB écrit l'auteur
-  *avant* la date. Le découpage « tout jusqu'à l'heure = la date » avale donc
-  l'auteur, et `posteur` reste vide.
+  *avant* la date. Le découpage « tout jusqu'à l'heure = la date » avalait donc
+  l'auteur. Corrigé dans fa-updates le 29 septembre 2026 : le posteur est lu dans
+  son lien de profil, la date dans ce qui reste.
 
 C'est aux plugins de s'adapter, pas aux templates : les corriger ici ne
 vaudrait que pour fa-lab.
