@@ -334,11 +334,18 @@
 <script>
 
 (function () {
-	var blocs = document.querySelectorAll('.postbody pre, .postbody code');
+	/* Les blocs seulement, pas le code en ligne. Forumactif y écrit les retours à la ligne en br,
+	   que highlight.js 11 perd en relisant le texte : on les remet en vrais retours avant. */
+	var blocs = document.querySelectorAll('.postbody .codebox code, .postbody pre');
 	if (!blocs.length) return;
 	var s = document.createElement('script');
 	s.src = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js';
-	s.onload = function () { blocs.forEach(function (b) { window.hljs.highlightElement(b); }); };
+	s.onload = function () {
+		blocs.forEach(function (b) {
+			b.querySelectorAll('br').forEach(function (br) { br.replaceWith('\n'); });
+			window.hljs.highlightElement(b);
+		});
+	};
 	document.head.appendChild(s);
 })();
 </script>
