@@ -71,7 +71,11 @@
   /* --fal-colonne: 20rem;          la colonne des plugins, sur l'accueil */
   /* --fal-profil: 11rem;           la colonne du profil, dans un sujet */
   /* --fal-arrondi: 8px; */
-  /* --fal-avatar: 4.5rem; */
+  /* --fal-avatar: 4.5rem;          largeur de l'avatar dans un message ; 100% = toute la colonne */
+  /* --fal-avatar-ratio: auto;       proportions : auto = celles de l'image, 5 / 8 = portrait 200 × 320 */
+  /* --fal-avatar-mobile: 3rem;      sa largeur sur téléphone */
+  /* --fal-avatar-profil: 12rem;     l'avatar de la page profil */
+  /* --fal-fiche-colonne: 16rem;     la colonne de l'avatar, sur la page profil */
 
   /* --- l'index ------------------------------------------------------------------
    *  Illustrations : block pour en donner une à chaque section, puis une règle

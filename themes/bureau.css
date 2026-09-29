@@ -82,6 +82,10 @@
 body.fal-corps { background: var(--bt-fond-page); }
 ::selection { background: var(--fal-accent); color: var(--fal-accent-contraste); }
 
+a, a:hover { text-decoration: none; }
+/* dans les messages, un pointillé discret : le jour, la couleur seule ne suffit pas à repérer un lien */
+.postbody .content a, .fal-message__signature a { text-decoration: underline dotted; text-underline-offset: .2em; }
+
 h1, h2, h3, .fal-titre-site { color: var(--bt-titre); }
 
 .fal-entete, .fal-titre-page, .fal-categorie, .fal-sujets, .fal-message, .fal-bloc,
@@ -231,6 +235,8 @@ input[type="url"], input[type="number"], select, textarea {
 .fal-raccourcis, .fal-barre, .fal-voisins { text-transform: none; letter-spacing: 0; }
 
 .fal-accueil__colonne > :not(:empty) { padding: 0 0 var(--bt-marge); overflow: hidden; }
+.fal-bloc { padding: 0 var(--bt-marge) var(--bt-marge); }
+.fal-bloc > .fal-bloc__titre { margin: 0 calc(-1 * var(--bt-marge)) .75rem; }
 
 .fal-enligne {
   --fal-fond: var(--bt-terminal);
@@ -278,7 +284,10 @@ input[type="url"], input[type="number"], select, textarea {
 .fal-message__titre { flex: 1 1 auto; font: inherit; }
 .fal-message__titre a { color: inherit; }
 .fal-message__date { font-family: var(--fal-police-texte); font-size: var(--fal-taille-petite); color: inherit; opacity: .85; text-transform: none; letter-spacing: 0; }
-.fal-message .fal-outils { margin: 0; font-family: var(--fal-police-texte); }
+.fal-message .fal-outils { margin: 0 0 0 auto; order: 2; font-family: var(--fal-police-texte); }
+.fal-message__titre { flex: 0 1 auto; }
+.fal-message__date { order: 3; margin-left: auto; }
+.fal-message .fal-outils + .fal-message__date, .fal-message__date:has(~ .fal-outils) { margin-left: 0; }
 .fal-message .fal-outils a, .fal-message .fal-outils span[onclick] { color: var(--bt-barre-texte); }
 .fal-profil { grid-area: profil; padding: var(--bt-marge) var(--bt-marge) 0; }
 .fal-message__texte { grid-area: texte; padding: var(--bt-marge) var(--bt-marge) .5rem; }
@@ -291,10 +300,11 @@ input[type="url"], input[type="number"], select, textarea {
     grid-template-areas: "barre barre" "profil texte" "profil reactions";
   }
   .fal-profil { padding-bottom: var(--bt-marge); border-right: 2px dashed var(--bt-filet); position: static; }
-  .fal-profil__avatar img { width: 8rem; height: 8rem; border: 2px solid var(--bt-bord); border-radius: 0; box-shadow: var(--bt-ombre-bouton); }
+  .fal-profil__avatar img { border: 2px solid var(--bt-bord); box-shadow: var(--bt-ombre-bouton); box-sizing: content-box; }
   .fal-reactions { align-self: end; }
 }
 .fal-profil__avatar img { border-radius: 0; }
+.fal-fiche__avatar img { box-sizing: content-box; }
 .fal-profil__nom { font-family: var(--fal-police-titres); font-size: 1.3rem; text-shadow: var(--bt-lueur); }
 .fal-profil__rang { text-transform: none; letter-spacing: 0; }
 
@@ -309,11 +319,25 @@ input[type="url"], input[type="number"], select, textarea {
 .rep-button { border: 2px solid var(--bt-bord); border-radius: 0; background: var(--bt-puce); color: var(--fal-texte); }
 .rep-button.active, .rep-button.voted { background: var(--fal-accent); color: var(--fal-accent-contraste); }
 
-.fal-reponse-rapide > * { background: var(--bt-fenetre); border: 2px solid var(--bt-bord); box-shadow: var(--bt-ombre); padding: var(--bt-marge); }
+.fal-reponse-rapide { background: var(--bt-fenetre); border: 2px solid var(--bt-bord); box-shadow: var(--bt-ombre); }
+.fal-reponse-rapide > .h3 {
+  margin: 0; padding: .15rem .75rem; min-height: var(--bt-barre-hauteur);
+  display: flex; align-items: center;
+  background: var(--bt-barre); color: var(--bt-barre-texte);
+  border-bottom: 2px solid var(--bt-bord);
+  font: 400 var(--bt-taille-barre) / 1.2 var(--bt-police-barre);
+}
+.fal-reponse-rapide form { padding: var(--bt-marge); }
+.fal-moderation__admin .btn { border: 2px solid var(--bt-bord); background: var(--bt-fenetre); box-shadow: none; }
+.fal-moderation__admin .btn:hover { background: var(--bt-puce); }
 
 .fal-redaction__principal.panel { padding: var(--bt-marge); }
 .fal-champ > label, .fal-champ__libelle { text-transform: none; letter-spacing: 0; }
-.fal-envoi { border-top: 2px solid var(--bt-bord); background: color-mix(in oklab, var(--bt-fenetre) 94%, transparent); }
+.fal-envoi { margin-inline: 0; border: 2px solid var(--bt-bord); background: var(--bt-fenetre); box-shadow: var(--bt-ombre); }
+.fal-corps .sceditor-container { border: 2px solid var(--bt-bord); border-radius: 0; }
+.fal-corps .sceditor-toolbar { background: #f3ead9; border-bottom: 2px solid var(--bt-bord); }
+.fal-legende li::before { border-radius: 0; border: 2px solid var(--bt-bord); width: .7rem; height: .7rem; }
+.fal-legende li:first-child::before { border-color: var(--bt-bord); }
 .fal-volet > summary { border-bottom-color: transparent; }
 .fal-volet[open] > summary { border-bottom-color: var(--bt-bord); }
 
@@ -350,3 +374,29 @@ input[type="url"], input[type="number"], select, textarea {
 }
 #fa_menulist, #notif_list { border: 2px solid var(--bt-bord); border-radius: 0; box-shadow: var(--bt-ombre); background: var(--bt-fenetre); }
 #fa_search #fa_textarea { border-radius: 0; }
+
+/* panneau de contrôle du membre : chaque rubrique est une fenêtre, son titre en barre */
+#tabs:not(.fal-onglets) { border-bottom: 2px solid var(--bt-bord); }
+#tabs:not(.fal-onglets) ul { gap: .15em; }
+#tabs:not(.fal-onglets) li a {
+  padding: .45em .9em; margin-bottom: -2px;
+  border: 2px solid transparent; border-bottom: 0;
+  font-family: var(--bt-police-barre); font-size: var(--bt-taille-barre);
+  text-transform: none; letter-spacing: 0;
+}
+#tabs:not(.fal-onglets) li.activetab a { border-color: var(--bt-bord); background: var(--bt-fenetre); color: var(--bt-titre); }
+#cp-main .page-title {
+  margin: 1.75rem 0 0; padding: .15rem .75rem; min-height: var(--bt-barre-hauteur);
+  display: flex; align-items: center;
+  border: 2px solid var(--bt-bord); border-bottom: 0;
+  background: var(--bt-barre); color: var(--bt-barre-texte);
+  font: 400 var(--bt-taille-barre) / 1.2 var(--bt-police-barre); text-shadow: none;
+}
+#cp-main .page-title:first-child { margin-top: 0; }
+#cp-main .page-title + .panel { margin-top: 0; }
+#cp-main fieldset dl { border-bottom: 2px dashed var(--bt-filet); }
+#cp-main fieldset.submit-buttons {
+  position: sticky; bottom: 0; z-index: 20;
+  padding: .75em var(--bt-marge);
+  border: 2px solid var(--bt-bord); background: var(--bt-fenetre); box-shadow: var(--bt-ombre);
+}

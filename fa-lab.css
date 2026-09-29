@@ -47,6 +47,10 @@
   --fal-arrondi-petit: 4px;
   --fal-trait: 1px;
   --fal-avatar: 4.5rem;
+  --fal-avatar-ratio: auto;
+  --fal-avatar-mobile: 3rem;
+  --fal-avatar-profil: 12rem;
+  --fal-fiche-colonne: 16rem;
   --fal-avatar-petit: 2rem;
   --fal-transition: .15s ease;
 
@@ -458,6 +462,7 @@ textarea { width: 100%; min-height: 10em; }
   width: var(--fal-avatar-dernier); height: var(--fal-avatar-dernier);
   border-radius: var(--fal-avatar-dernier-arrondi);
   object-fit: cover;
+  object-position: center top;
 }
 .fal-forum__dernier:not(:has(.lastpost-infos a[href]:not([href=""]))) .lastpost-avatar { display: none; }
 .lastpost dfn { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
@@ -730,7 +735,12 @@ textarea { width: 100%; min-height: 10em; }
   align-items: center;
   font-size: var(--fal-taille-petite);
 }
-.fal-profil__avatar img { display: block; width: 3rem; height: 3rem; border-radius: 50%; object-fit: cover; }
+.fal-profil__avatar img {
+  display: block; width: var(--fal-avatar-mobile); height: auto;
+  max-width: none !important; max-height: none !important; /* Forumactif pose un max-width: 200px en ligne */
+  aspect-ratio: var(--fal-avatar-ratio); object-fit: cover; object-position: center top;
+  border-radius: var(--fal-arrondi-petit);
+}
 .fal-profil__avatar:not(:has(img)) { display: none; }
 .fal-profil__nom { font-weight: 700; font-size: 1rem; }
 .fal-profil__nom a { text-decoration: none; }
@@ -742,7 +752,8 @@ textarea { width: 100%; min-height: 10em; }
 @media (min-width: 48rem) {
   .fal-message { grid-template-columns: var(--fal-profil) minmax(0, 1fr); gap: calc(var(--fal-espace) * 2); }
   .fal-profil { display: flex; flex-direction: column; align-items: flex-start; gap: .5em; align-self: start; position: sticky; top: var(--fal-espace); }
-  .fal-profil__avatar img { width: var(--fal-avatar); height: var(--fal-avatar); }
+  .fal-profil__avatar { align-self: stretch; }
+  .fal-profil__avatar img { width: var(--fal-avatar); }
   .fal-profil__champs { display: block; }
   .fal-profil__contact { display: flex; }
 }
@@ -818,7 +829,7 @@ textarea { width: 100%; min-height: 10em; }
 .postbody .codebox dt { padding: .4em .8em; border-bottom: var(--fal-trait) solid var(--fal-bordure); font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
 .postbody .codebox dd { margin: 0; }
 .postbody code, .postbody pre, .postbody .codebox code { font-family: var(--fal-police-code); }
-.postbody .codebox code, .postbody pre { display: block; padding: .8em; white-space: pre; }
+.postbody .codebox code, .postbody pre { display: block; padding: .8em; white-space: pre-wrap; overflow-wrap: anywhere; }
 
 .postbody .spoiler_title, .postbody .hidecode dt { font-weight: 600; cursor: pointer; }
 .postbody .spoiler, .postbody .hidecode { margin: 1em 0; padding: .6em .9em; border: var(--fal-trait) dashed var(--fal-bordure-forte); border-radius: var(--fal-arrondi-petit); }
@@ -844,9 +855,19 @@ textarea { width: 100%; min-height: 10em; }
 
 .fal-reponse-rapide { margin-block: calc(var(--fal-espace) * 2); }
 .fal-reponse-rapide:empty { display: none; }
+.fal-reponse-rapide > br { display: none; }
+.fal-reponse-rapide #textarea_content { width: 100% !important; text-align: left !important; }
+.fal-reponse-rapide form { display: grid; gap: .75em; }
 
 .fal-moderation__admin { font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
 .fal-moderation__admin:empty { display: none; }
+.fal-moderation__admin { display: flex; flex-wrap: wrap; gap: .4em; }
+.fal-moderation__admin .btn {
+  padding: .35em; border: var(--fal-trait) solid var(--fal-bordure-forte);
+  background: transparent; box-shadow: none;
+}
+.fal-moderation__admin .btn:hover { background: var(--fal-surface); }
+.fal-moderation__admin img { display: block; width: 1rem; height: 1rem; }
 
 .fal-fenetre {
   position: fixed; z-index: 10000;
@@ -1049,14 +1070,15 @@ textarea { width: 100%; min-height: 10em; }
 .fal-fiche { display: grid; gap: calc(var(--fal-espace) * 2); }
 .fal-fiche > * { min-width: 0; } /* sinon la barre d'onglets élargit la page */
 @media (min-width: 56rem) {
-  .fal-fiche { grid-template-columns: 16rem minmax(0, 1fr); align-items: start; }
+  .fal-fiche { grid-template-columns: var(--fal-fiche-colonne) minmax(0, 1fr); align-items: start; }
   .fal-fiche__identite { position: sticky; top: var(--fal-espace); }
 }
 
 .fal-fiche__portrait.module { padding: 0; border: 0; text-align: center; }
 .fal-fiche__avatar img {
   display: block; margin: 0 auto var(--fal-espace);
-  width: 10rem; height: auto !important; max-width: 100% !important;
+  width: var(--fal-avatar-profil); height: auto !important; max-width: 100% !important; max-height: none !important;
+  aspect-ratio: var(--fal-avatar-ratio); object-fit: cover; object-position: center top;
   border-radius: var(--fal-arrondi);
 }
 .fal-fiche__nom { font-size: clamp(1.75rem, 1.3rem + 1.5vw, 2.5rem); }
@@ -1111,7 +1133,7 @@ textarea { width: 100%; min-height: 10em; }
   color: var(--fal-texte-doux);
 }
 /* libellés en #444444 par défaut chez Forumactif : illisibles en sombre */
-.fal-fiche__champ dt [style*="#444444"] { color: inherit !important; }
+[style*="color:#444444"], [style*="color: #444444"] { color: inherit !important; }
 .fal-fiche__champ dd { margin: 0; position: relative; }
 .fal-fiche__champ .profile_field_list { margin: 0; padding: 0; list-style: none; display: grid; gap: .25em; }
 .ajax-profil_hover { background: var(--fal-accent-doux); cursor: pointer; }
@@ -1163,6 +1185,55 @@ textarea { width: 100%; min-height: 10em; }
 .fal-rpg .details dd { margin: 0; }
 
 .fal-tableau { overflow-x: auto; }
+
+/* l'éditeur : sa feuille (fa.default) le peint en blanc ; la barre d'icônes reste claire pour ses icônes noires */
+.fal-corps .sceditor-container { background: var(--fal-fond); border-color: var(--fal-bordure-forte); }
+.fal-corps .sceditor-container textarea { background: var(--fal-fond); color: var(--fal-texte); font-family: var(--fal-police-texte); }
+.fal-corps .sceditor-container.wysiwygMode { background: #ffffff; }
+.fal-editeur__etat #smileyContainer { display: none; }
+
+/* légendes : les pastilles de la base à la place des icônes de Forumactif */
+.fal-legende img { display: none; }
+.fal-legende li { display: flex; align-items: center; gap: .45em; }
+.fal-legende li::before { content: ""; width: .55rem; height: .55rem; border-radius: 50%; border: 1.5px solid var(--fal-bordure-forte); }
+.fal-legende li:first-child::before { background: var(--fal-accent); border-color: var(--fal-accent); }
+.fal-legende li:nth-child(3)::before { border-style: dashed; border-radius: 1px; }
+.fal-legende:has(> li:nth-child(4)) { display: none; }
+
+/* l'icône « message le plus récent » : une flèche de texte */
+a > img[src*="newest"], a > img[src*="latest"] { display: none; }
+a:has(> img[src*="newest"])::after, a:has(> img[src*="latest"])::after { content: "→"; color: var(--fal-accent); text-decoration: none; }
+/* « tu as participé » : une étoile après le titre à la place de l'icône */
+.fal-sujet img[src*="participate"] { display: none; }
+.fal-sujet:has(img[src*="participate"]) .fal-sujet__titre::after { content: " ✦"; color: var(--fal-accent); font-size: .7em; vertical-align: .15em; }
+
+/* Panneau de contrôle du membre (édition du profil, préférences, avatar…) : balisage ModernBB */
+#tabs:not(.fal-onglets) { margin-bottom: calc(var(--fal-espace) * 1.5); border-bottom: var(--fal-trait) solid var(--fal-bordure); }
+#tabs:not(.fal-onglets) ul { display: flex; flex-wrap: wrap; gap: 0 1.25em; margin: 0; padding: 0; list-style: none; }
+#tabs:not(.fal-onglets) li a {
+  display: block; padding: .6em 0; margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
+  color: var(--fal-texte-doux); text-decoration: none;
+  font: 500 var(--fal-taille-petite) / 1.3 var(--fal-police-interface);
+  text-transform: var(--fal-interface-casse); letter-spacing: var(--fal-interface-espacement);
+}
+#tabs:not(.fal-onglets) li a:hover { color: var(--fal-texte); }
+#tabs:not(.fal-onglets) li.activetab a { color: var(--fal-texte); border-bottom-color: var(--fal-accent); }
+.panel:has(> .inner > #cp-main) { padding: 0; border: 0; background: none; box-shadow: none; }
+.corners-top, .corners-bottom { display: none; }
+#cp-main .page-title { margin: calc(var(--fal-espace) * 1.5) 0 .6em; font-size: var(--fal-taille-titre-section); }
+#cp-main .page-title:first-child { margin-top: 0; }
+#cp-main fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+#cp-main fieldset dl { display: grid; gap: .3em 1em; margin: 0; padding-block: .7em; border-bottom: var(--fal-trait) solid var(--fal-bordure); }
+#cp-main fieldset dl:last-child { border-bottom: 0; }
+@media (min-width: 48rem) { #cp-main fieldset dl { grid-template-columns: 14rem minmax(0, 1fr); align-items: baseline; } }
+#cp-main dt { font-weight: 600; font-size: var(--fal-taille-petite); }
+#cp-main dt span, #cp-main dd span.explain, #cp-main .explain { font-weight: 400; color: var(--fal-texte-doux); }
+#cp-main dd { margin: 0; font-size: var(--fal-taille-petite); }
+#cp-main dd ul, #cp-main .profile_field_list { margin: 0; padding: 0; list-style: none; display: grid; gap: .25em; }
+#cp-main .inputbox, #cp-main textarea { width: min(100%, 28rem); }
+#cp-main textarea { width: 100%; }
+#cp-main fieldset.submit-buttons { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5em; margin-top: var(--fal-espace); }
 
 /* Les pages que fa-lab ne redessine pas encore (recherche, membres,
    messagerie…) : leur balisage ModernBB, rendu lisible. */
